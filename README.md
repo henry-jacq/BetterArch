@@ -1,6 +1,5 @@
-# ArchTitus Installer Script
+# BetterArch Installer Script
 
-<img src="https://i.imgur.com/YiNMnan.png" />
 
 This README contains the steps I do to install and configure a fully-functional Arch Linux installation containing a desktop environment, all the support packages (network, bluetooth, audio, printers, etc.), along with all my preferred applications and utilities. The shell scripts in this repo allow the entire process to be automated.)
 
@@ -17,8 +16,8 @@ From initial Prompt type the following commands:
 
 ```
 pacman -Sy git
-git clone https://github.com/ChrisTitusTech/ArchTitus
-cd ArchTitus
+git clone https://github.com/henry-jacq/BetterArch
+cd BetterArch
 ./archtitus.sh
 ```
 
