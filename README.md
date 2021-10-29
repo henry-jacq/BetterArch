@@ -1,0 +1,2 @@
+# BetterArch
+Customized Arch Linux
