@@ -22,10 +22,10 @@ READ="read -p"
 SLEEP="sleep 0.5"
 
 
-$ECHO "\n${GREEN}==> Installing AUR Helper\n${NC}"
+$ECHO "\n${GREEN}==> Installing AUR Helper\n${NC}" && $SLEEP
 # You can solve users running this script as root with this and then doing the same for the next for statement. However I will leave this up to you.
 
-$ECHO "${GREEN}==> Cloning: Yay${NC}"
+$ECHO "${GREEN}==> Cloning: Yay${NC}" && $SLEEP
 cd ~
 git clone "https://aur.archlinux.org/yay.git"
 cd ${HOME}/yay
