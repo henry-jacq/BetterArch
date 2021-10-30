@@ -1,17 +1,31 @@
 #!/usr/bin/env bash
-#-------------------------------------------------------------------------
-#   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-#  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-#  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-#  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-#  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-#  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
-#-------------------------------------------------------------------------
 
-echo -e "\nINSTALLING AUR SOFTWARE\n"
+#-------------------------------------------------------------------------
+# ______      _   _             ___           _
+# | ___ \    | | | |           / _ \         | |
+# | |_/ / ___| |_| |_ ___ _ __/ /_\ \_ __ ___| |__
+# | ___ \/ _ \ __| __/ _ \ '__|  _  | '__/ __| '_ \
+# | |_/ /  __/ |_| ||  __/ |  | | | | | | (__| | | |
+# \____/ \___|\__|\__\___|_|  \_| |_/_|  \___|_| |_| v1.0
+#-------------------------------------------------------------------------
+# Author: Henry
+# GitHub: https://github.com/henry-jacq
+# Info: This setup is still in beta stage
+
+NC="\e[0m"
+RED="\e[31m"
+BLUE="\e[34m"
+GREEN="\e[32m"
+ORANGE="\e[33m"
+ECHO="echo -e"
+READ="read -p"
+SLEEP="sleep 0.5"
+
+
+$ECHO "\n${GREEN}==> Installing AUR Helper\n${NC}"
 # You can solve users running this script as root with this and then doing the same for the next for statement. However I will leave this up to you.
 
-echo "CLONING: YAY"
+$ECHO "${GREEN}==> Cloning: Yay${NC}"
 cd ~
 git clone "https://aur.archlinux.org/yay.git"
 cd ${HOME}/yay
@@ -26,6 +40,7 @@ PKGS=(
 'autojump'
 'awesome-terminal-fonts'
 'brave-bin' # Brave Browser
+'discord' #discord
 'dxvk-bin' # DXVK DirectX to Vulcan
 'github-desktop-bin' # Github Desktop sync
 'lightly-git'
@@ -42,10 +57,13 @@ PKGS=(
 'ocs-url' # install packages from websites
 'sddm-nordic-theme-git'
 'snapper-gui-git'
+'ttf-cascadia-code'
 'ttf-droid'
 'ttf-hack'
 'ttf-meslo' # Nerdfont package
 'ttf-roboto'
+'ttf-roboto-mono'
+'ulauncher'
 'zoom' # video conferences
 'snap-pac'
 )
@@ -55,11 +73,13 @@ for PKG in "${PKGS[@]}"; do
 done
 
 export PATH=$PATH:~/.local/bin
+$ECHO "==> Copying dotfiles"
 cp -r $HOME/ArchTitus/dotfiles/* $HOME/.config/
+$ECHO "==> Installing konsave using pip"
 pip install konsave
 konsave -i $HOME/ArchTitus/kde.knsv
-sleep 1
+$SLEEP
 konsave -a kde
 
-echo -e "\nDone!\n"
+$ECHO "${GREEN}\n[+] Done!\n${NC}"
 exit

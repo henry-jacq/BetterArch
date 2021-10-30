@@ -1,22 +1,35 @@
 #!/usr/bin/env bash
-#-------------------------------------------------------------------------
-#   █████╗ ██████╗  ██████╗██╗  ██╗████████╗██╗████████╗██╗   ██╗███████╗
-#  ██╔══██╗██╔══██╗██╔════╝██║  ██║╚══██╔══╝██║╚══██╔══╝██║   ██║██╔════╝
-#  ███████║██████╔╝██║     ███████║   ██║   ██║   ██║   ██║   ██║███████╗
-#  ██╔══██║██╔══██╗██║     ██╔══██║   ██║   ██║   ██║   ██║   ██║╚════██║
-#  ██║  ██║██║  ██║╚██████╗██║  ██║   ██║   ██║   ██║   ╚██████╔╝███████║
-#  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝   ╚═╝    ╚═════╝ ╚══════╝
-#-------------------------------------------------------------------------
 
-echo -e "\nFINAL SETUP AND CONFIGURATION"
+#-------------------------------------------------------------------------
+# ______      _   _             ___           _
+# | ___ \    | | | |           / _ \         | |
+# | |_/ / ___| |_| |_ ___ _ __/ /_\ \_ __ ___| |__
+# | ___ \/ _ \ __| __/ _ \ '__|  _  | '__/ __| '_ \
+# | |_/ /  __/ |_| ||  __/ |  | | | | | | (__| | | |
+# \____/ \___|\__|\__\___|_|  \_| |_/_|  \___|_| |_| v1.0
+#-------------------------------------------------------------------------
+# Author: Henry
+# GitHub: https://github.com/henry-jacq
+# Info: This setup is still in beta stage
+
+NC="\e[0m"
+RED="\e[31m"
+BLUE="\e[34m"
+GREEN="\e[32m"
+ORANGE="\e[33m"
+ECHO="echo -e"
+READ="read -p"
+SLEEP="sleep 0.5"
+
+$ECHO "\n==> Reached Final setup and configuration"
 
 # ------------------------------------------------------------------------
 
-echo -e "\nEnabling Login Display Manager"
+$ECHO "${GREEN}\n[+] Enabling Login Display Manager${NC}"
 
 sudo systemctl enable sddm.service
 
-echo -e "\nSetup SDDM Theme"
+$ECHO "${GREEN}\n[+] Setting up SDDM Theme${NC}"
 
 sudo cat <<EOF > /etc/sddm.conf
 [Theme]
@@ -25,7 +38,7 @@ EOF
 
 # ------------------------------------------------------------------------
 
-echo -e "\nEnabling essential services"
+$ECHO "${GREEN}\n[+] Enabling essential services${NC}"
 
 systemctl enable cups.service
 sudo ntpd -qg
@@ -34,19 +47,23 @@ sudo systemctl disable dhcpcd.service
 sudo systemctl stop dhcpcd.service
 sudo systemctl enable NetworkManager.service
 sudo systemctl enable bluetooth
-echo "
+
+$ECHO "
 ###############################################################################
 # Cleaning
 ###############################################################################
 "
-# Remove no password sudo rights
+# Remove no password sudo permissions
+$ECHO "${RED}[!] Removing no password permissions${NC}"
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
-# Add sudo rights
+# Add sudo permissions
+$ECHO "${GREEN}[+] Adding sudo permissions to $(users)${NC}"
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
 # Replace in the same state
 cd $pwd
-echo "
+
+$ECHO "
 ###############################################################################
 # Done - Please Eject Install Media and Reboot
 ###############################################################################
