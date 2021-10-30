@@ -21,11 +21,10 @@ ECHO="echo -e"
 READ="read -p"
 SLEEP="sleep 0.5"
 
-$ECHO """${BLUE}
+$ECHO """
 --------------------------------------
 --          Network Setup           --
---------------------------------------
-${NC}"""
+--------------------------------------"""
 
 # Enabling NetworkManager
 $ECHO "${BLUE}==> Installing networkmanager dhclient${NC}"
@@ -42,60 +41,61 @@ $SLEEP
 pacman -S --noconfirm pacman-contrib curl reflector rsync
 $SLEEP
 
-$ECHO "==> Creating a backup for mirrorlist"
+$ECHO "==> Creating a backup for pacman mirrorlist"
 $SLEEP
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 $SLEEP
-nc=$(grep -c ^processor /proc/cpuinfo)
-$ECHO "==> You have " $nc" cores.\n"
+
+# Checking Processor info
+prc=$(grep -c ^processor /proc/cpuinfo)
+$ECHO "==> You have " $prc" cores.\n"
 $ECHO "-------------------------------------------------"
-$ECHO "==> Changing the makeflags for "$nc" cores."
+$ECHO "==> Changing the makeflags for "$prc" cores."
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 
 if [[  $TOTALMEM -gt 8000000 ]]; then
     sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$nc"/g' /etc/makepkg.conf
-    $ECHO "==> Changing the compression settings for "$nc" cores."
+    $ECHO "==> Changing the compression settings for "$prc" cores."
     sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g' /etc/makepkg.conf
 fi
 
 
-$ECHO "${BLUE}
+$ECHO "
 -------------------------------------------------
 --     Setup Language to US and set locale     --
--------------------------------------------------
-${NC}"
-sleep 0.5
+-------------------------------------------------"
+$SLEEP
 
-$ECHO "${GREEN}==> Setting up locales${NC}"
+$ECHO "${GREEN}==> Setting up locales${NC}" && $SLEEP
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+$ECHO "${GREEN}==> Generating locales${NC}" && $SLEEP
 locale-gen
 
-$ECHO "${GREEN}==> Setting Timezone${NC}"
+$ECHO "${GREEN}==> Setting Timezone${NC}" && $SLEEP
 timedatectl --no-ask-password set-timezone Asia/Kolkata
 timedatectl --no-ask-password set-ntp 1
 
-$ECHO "${GREEN}==> Setting Language to US (Default)${NC}"
+$ECHO "${GREEN}==> Setting Language to US (Default)${NC}" && $SLEEP
 localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
 
 # Set keymaps
-$ECHO "${GREEN}==> Setting keymaps${NC}"
-sleep 0.5
+$ECHO "${GREEN}==> Setting keymaps${NC}" && $SLEEP
 localectl --no-ask-password set-keymap us
 
 # Add sudo no password rights
-sleep 0.5
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 
-#Add parallel downloading
-$ECHO "${GREEN}==> Adding parallel downloads in pacman config${NC}"
+# Add parallel downloads
+$ECHO "${GREEN}==> Adding parallel downloads in pacman config${NC}" && $SLEEP
 sed -i 's/^#Para/Para/' /etc/pacman.conf
 
-#Enable multilib support
-$ECHO "${GREEN}==> Enabling multilib support in pacman config${NC}"
+# Enable multilib support
+$ECHO "${GREEN}==> Enabling multilib repo support in pacman config${NC}" && $SLEEP
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+$ECHO "==> Updating the system" && $SLEEP
 pacman -Sy --noconfirm
 
-$ECHO "${GREEN}\n==> Started Installing Base System\n${NC}"
+$ECHO "${GREEN}\n[+] Started Installing Base System\n${NC}" && $SLEEP
 
 PKGS=(
 'mesa' # Essential Xorg First
@@ -186,7 +186,6 @@ PKGS=(
 'openbsd-netcat'
 'openssh'
 'os-prober'
-'oxygen'
 'p7zip'
 'pacman-contrib'
 'patch'
@@ -199,13 +198,11 @@ PKGS=(
 'pulseaudio-alsa'
 'pulseaudio-bluetooth'
 'python-pip'
-'qemu'
 'rsync'
 'sddm'
 'sddm-kcm'
 'snapper'
 'spectacle'
-'steam'
 'sudo'
 'swtpm'
 'synergy'
@@ -222,9 +219,9 @@ PKGS=(
 # 'virt-viewer'
 'wget'
 'which'
-'wine-gecko'
-'wine-mono'
-'winetricks'
+# 'wine-gecko'
+# 'wine-mono'
+# 'winetricks'
 'wireguard-tools'
 'xdg-desktop-portal-kde'
 'xdg-user-dirs'
@@ -237,27 +234,26 @@ PKGS=(
 
 for PKG in "${PKGS[@]}"; do
     $ECHO "${GREEN}[+] Installing: ${PKG}${NC}"
-    sleep 0.5
+    $SLEEP
     sudo pacman -S "$PKG" --noconfirm --needed
 done
 
 
-# determine processor type and install microcode
+# Determine processor type and install microcode
 # 
 $ECHO "==> Detecting Processor Type"
+
 proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
 case "$proc_type" in
 	GenuineIntel)
         $ECHO "==> $proc_type Detected"
-		$ECHO "==> Installing Intel microcode"
-		sleep 0.5
+		$ECHO "==> Installing Intel microcode" && $SLEEP
 		pacman -S --noconfirm intel-ucode
 		proc_ucode=intel-ucode.img
 		;;
 	AuthenticAMD)
         $ECHO "$proc_type Detected"
-		$ECHO "==> Installing AMD microcode"
-		sleep 0.5
+		$ECHO "==> Installing AMD microcode" && $SLEEP
 		pacman -S --noconfirm amd-ucode
 		proc_ucode=amd-ucode.img
 		;;
@@ -265,11 +261,14 @@ esac
 
 # Graphics Drivers find and install
 if lspci | grep -E "NVIDIA|GeForce"; then
+    $ECHO "==> Installing NVIDIA driver" && $SLEEP
     pacman -S nvidia --noconfirm --needed
 	nvidia-xconfig
 elif lspci | grep -E "Radeon"; then
+    $ECHO "==> Installing AMD Radeon driver" && $SLEEP
     pacman -S xf86-video-amdgpu --noconfirm --needed
 elif lspci | grep -E "Integrated Graphics Controller"; then
+    $ECHO "==> Installing driver for Integrated Graphics Controller" && $SLEEP
     pacman -S libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-intel-driver libva-utils --needed --noconfirm
 fi
 
@@ -277,23 +276,24 @@ $ECHO "${GREEN}\n[+] Done !\n${NC}"
 sleep 2
 
 if ! source install.conf; then
-	$READ "[+] Enter the Username: " username
-    $ECHO "username=$username" >> ${HOME}/ArchTitus/install.conf
+    $READ "[+] Enter the Username: " theusername
+    $ECHO "username=${theusername}" >> ${HOME}/ArchTitus/install.conf
 fi
 
-if [ $(whoami) = "root"  ];
-then
+if [ $(whoami) = "root"  ]; then
     $ECHO "${GREEN}==> Addding User $username ${NC}"
-    sleep 1
-    useradd -m -G wheel,libvirt -s /bin/bash $username
-	passwd $username
-	$ECHO "==> Copying ArchTitus to home"
-	cp -R /root/ArchTitus /home/$username/
-	$ECHO "==> Changing ArchTitus/ permission as $username"
-    chown -R $username: /home/$username/ArchTitus
-	$READ "[+] Enter the hostname: " nameofmachine
-	$ECHO $nameofmachine > /etc/hostname
+    $SLEEP
+    useradd -m -G wheel,libvirt -s /bin/bash ${theusername}
+    $ECHO "==> Prompting For Password"
+    $SLEEP
+    passwd ${theusername}
+    $ECHO "==> Copying ArchTitus to home"
+    cp -R /root/ArchTitus/ /home/${theusername}/
+    $ECHO "==> Changing ArchTitus/ permission as ${theusername}"
+    chown -R ${theusername}: /home/${theusername}/ArchTitus
+    $READ "[+] Enter the Hostname: " nameofmachine
+    $ECHO ${nameofmachine} > /etc/hostname
 else
-	$ECHO "${RED}==> You are already a user proceed with aur installs${NC}"
+    $ECHO "${RED}==> You are already a user proceed with aur installs${NC}"
 fi
 
