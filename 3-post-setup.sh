@@ -40,13 +40,13 @@ EOF
 
 $ECHO "${GREEN}\n[+] Enabling essential services${NC}"
 
-systemctl enable cups.service
-sudo ntpd -qg
-sudo systemctl enable ntpd.service
-sudo systemctl disable dhcpcd.service
-sudo systemctl stop dhcpcd.service
-sudo systemctl enable NetworkManager.service
-sudo systemctl enable bluetooth
+systemctl enable cups.service && $SLEEP
+sudo ntpd -qg && $SLEEP
+sudo systemctl enable ntpd.service && $SLEEP
+sudo systemctl disable dhcpcd.service && $SLEEP
+sudo systemctl stop dhcpcd.service && $SLEEP
+sudo systemctl enable NetworkManager.service && $SLEEP
+sudo systemctl enable bluetooth && $SLEEP
 
 $ECHO "
 ###############################################################################
