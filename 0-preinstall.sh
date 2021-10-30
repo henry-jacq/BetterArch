@@ -91,9 +91,9 @@ case $formatdisk in
     # label partitions
     sgdisk -c 1:"UEFISYS" ${DISK}
     sgdisk -c 2:"ROOT" ${DISK}
-
+    
     # make filesystems
-    $ECHO "\nCreating Filesystems...\n$HR"
+    $ECHO "==> \nCreating Filesystems...\n$HR"
     if [[ ${DISK} =~ "nvme" ]]; then
         mkfs.vfat -F32 -n "UEFISYS" "${DISK}p1"
         mkfs.btrfs -L "ROOT" "${DISK}p2" -f
@@ -162,8 +162,8 @@ initrd  /initramfs-linux.img
 options root=LABEL=ROOT rw rootflags=subvol=@
 EOF
 
-$ECHO "==> Copying ArchTitus to /mnt/root/ArchTitus"
-cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
+$ECHO "==> Copying BetterArch to /mnt/root/BetterArch"
+cp -R ${SCRIPT_DIR} /mnt/root/BetterArch
 $ECHO "==> Copying mirrorlist to /mnt/../"
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
@@ -178,7 +178,7 @@ if [[  $TOTALMEM -lt 8000000 ]]; then
     mkdir /mnt/opt/swap #make a dir that we can apply NOCOW to to make it btrfs-friendly.
     chattr +C /mnt/opt/swap #apply NOCOW, btrfs needs that.
     dd if=/dev/zero of=/mnt/opt/swap/swapfile bs=1M count=2048 status=progress
-    chmod 600 /mnt/opt/swap/swapfile #set permissions.
+    chmod 600 /mnt/opt/swap/swapfile # set permissions.
     chown root /mnt/opt/swap/swapfile
     mkswap /mnt/opt/swap/swapfile
     swapon /mnt/opt/swap/swapfile
