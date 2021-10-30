@@ -49,6 +49,9 @@ $SLEEP
 # Checking Processor info
 prc=$(grep -c ^processor /proc/cpuinfo)
 $ECHO "==> You have " $prc" cores.\n"
+$SLEEP
+$SLEEP
+$SLEEP
 $ECHO "-------------------------------------------------"
 $ECHO "==> Changing the makeflags for "$prc" cores."
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
@@ -276,21 +279,21 @@ $ECHO "${GREEN}\n[+] Done !\n${NC}"
 sleep 2
 
 if ! source install.conf; then
-    $READ "[+] Enter the Username: " theusername
-    $ECHO "username=${theusername}" >> ${HOME}/ArchTitus/install.conf
+    $READ "[+] Enter the Username: " username
+    $ECHO "username=${username}" >> ${HOME}/BetterArch/install.conf
 fi
 
 if [ $(whoami) = "root"  ]; then
     $ECHO "${GREEN}==> Addding User $username ${NC}"
     $SLEEP
-    useradd -m -G wheel,libvirt -s /bin/bash ${theusername}
+    useradd -m -G wheel,libvirt -s /bin/bash ${username}
     $ECHO "==> Prompting For Password"
     $SLEEP
-    passwd ${theusername}
-    $ECHO "==> Copying ArchTitus to home"
-    cp -R /root/ArchTitus/ /home/${theusername}/
-    $ECHO "==> Changing ArchTitus/ permission as ${theusername}"
-    chown -R ${theusername}: /home/${theusername}/ArchTitus
+    passwd ${username}
+    $ECHO "==> Copying BetterArch to home"
+    cp -R /root/BetterArch/ /home/${username}/
+    $ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
+    chown -R ${username}: /home/${username}/BetterArch
     $READ "[+] Enter the Hostname: " nameofmachine
     $ECHO ${nameofmachine} > /etc/hostname
 else
