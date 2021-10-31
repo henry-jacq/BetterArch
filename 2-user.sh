@@ -80,8 +80,10 @@ pip install konsave
 konsave -i $HOME/BetterArch/kde.knsv
 $SLEEP
 konsave -a kde
-$ECHO "==> Adding neofetch"
+$ECHO "==> Adding neofetch" && $SLEEP
 $ECHO "neofetch" >> $HOME/.bashrc
+$ECHO "==> Adding neofetch config" && $SLEEP
+cp -r $HOME/BetterArch/neofetch/ $HOME/.config/
 
 $ECHO "${GREEN}\n[+] Done with user!\n${NC}"
 exit
