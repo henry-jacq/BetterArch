@@ -85,18 +85,18 @@ sleep 10
 $ECHO "==> Adding neofetch in bashrc" && $SLEEP
 $ECHO "neofetch" >> $HOME/.bashrc
 # ----------------------------------------------------------------
-$ECHO "==> Adding config to home" && $SLEEP
-sudo cp -r $HOME/BetterArch/config/* / $HOME/.config/ && $ECHO "${GREEN}\n[+] Done with config!\n${NC}" || $ECHO "==> Directory not found. creating one" && mkdir -p $HOME/.config/ && cp -r $HOME/BetterArch/config/* $HOME/.config/
-# ----------------------------------------------------------------
-$ECHO "==> Adding local to home" && $SLEEP
-sudo cp -r $HOME/BetterArch/local/* $HOME/.local/ && $ECHO "${GREEN}\n[+] Done with config!\n${NC}" || $ECHO "==> Directory not found. creating one" && mkdir -p $HOME/.local/ && cp -r $HOME/BetterArch/local/* $HOME/.local/
-# ----------------------------------------------------------------
-$ECHO "==> Adding usr dir for sddm theme" && $SLEEP
-sudo cp -r $HOME/BetterArch/usr/share/sddm/themes/* /usr/share/sddm/themes/ && $ECHO "${GREEN}\n[+] Done with sddm theme [Orchis]!\n${NC}" || mkdir -p /usr/share/sddm/themes/ && sudo cp -r $HOME/BetterArch/usr/share/sddm/themes/* /usr/share/sddm/themes/ && $ECHO "${GREEN}\n[+] Done with sddm theme [Orchis]!\n${NC}"
-# ----------------------------------------------------------------
-$ECHO "==> Adding etc dir for sddm config" && $SLEEP
-sudo cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d/  && $ECHO "${GREEN}\n[+] Done with sddm config!\n${NC}" || mkdir -p /etc/sddm.conf.d/ && sudo cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d/  && $ECHO "${GREEN}\n[+] Done with sddm config!\n${NC}"
-# || $ECHO "==> Directory not found. creating one" && mkdir /etc/sddm.conf.d/ && cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d/ && $ECHO "${GREEN}\n[+] Done with sddm config!\n${NC}" && $SLEEP
-# ----------------------------------------------------------------
-$ECHO "${GREEN}\n[+] Done with user!\n${NC}"
+# $ECHO "==> Adding config to home" && $SLEEP
+# sudo cp -r $HOME/BetterArch/config/* / $HOME/.config/ && $ECHO "${GREEN}\n[+] Done with config!\n${NC}" || $ECHO "==> Directory not found. creating one" && mkdir -p $HOME/.config/ && cp -r $HOME/BetterArch/config/* $HOME/.config/
+# # ----------------------------------------------------------------
+# $ECHO "==> Adding local to home" && $SLEEP
+# sudo cp -r $HOME/BetterArch/local/* $HOME/.local/ && $ECHO "${GREEN}\n[+] Done with config!\n${NC}" || $ECHO "==> Directory not found. creating one" && mkdir -p $HOME/.local/ && cp -r $HOME/BetterArch/local/* $HOME/.local/
+# # ----------------------------------------------------------------
+# $ECHO "==> Adding usr dir for sddm theme" && $SLEEP
+# sudo cp -r $HOME/BetterArch/usr/share/sddm/themes/* /usr/share/sddm/themes/ && $ECHO "${GREEN}\n[+] Done with sddm theme [Orchis]!\n${NC}" || mkdir -p /usr/share/sddm/themes/ && sudo cp -r $HOME/BetterArch/usr/share/sddm/themes/* /usr/share/sddm/themes/ && $ECHO "${GREEN}\n[+] Done with sddm theme [Orchis]!\n${NC}"
+# # ----------------------------------------------------------------
+# $ECHO "==> Adding etc dir for sddm config" && $SLEEP
+# sudo cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d/  && $ECHO "${GREEN}\n[+] Done with sddm config!\n${NC}" || mkdir -p /etc/sddm.conf.d/ && sudo cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d/  && $ECHO "${GREEN}\n[+] Done with sddm config!\n${NC}"
+# # || $ECHO "==> Directory not found. creating one" && mkdir /etc/sddm.conf.d/ && cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d/ && $ECHO "${GREEN}\n[+] Done with sddm config!\n${NC}" && $SLEEP
+# # ----------------------------------------------------------------
+# $ECHO "${GREEN}\n[+] Done with user!\n${NC}"
 exit
