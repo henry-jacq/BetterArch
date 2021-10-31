@@ -31,21 +31,21 @@ git clone "https://aur.archlinux.org/yay.git"
 cd ${HOME}/yay
 makepkg -si --noconfirm
 cd ~
-touch "$HOME/.cache/zshhistory"
-git clone "https://github.com/ChrisTitusTech/zsh"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerlevel10k
-ln -s "$HOME/zsh/.zshrc" $HOME/.zshrc
+# touch "$HOME/.cache/zshhistory"
+# git clone "https://github.com/ChrisTitusTech/zsh"
+# git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/powerlevel10k
+# ln -s "$HOME/zsh/.zshrc" $HOME/.zshrc
 
 PKGS=(
 'autojump'
 'awesome-terminal-fonts'
 'brave-bin' # Brave Browser
 'discord' #discord
-'dxvk-bin' # DXVK DirectX to Vulcan
+# 'dxvk-bin' # DXVK DirectX to Vulcan
 'github-desktop-bin' # Github Desktop sync
 'lightly-git'
-'mangohud' # Gaming FPS Counter
-'mangohud-common'
+# 'mangohud' # Gaming FPS Counter
+# 'mangohud-common'
 'nerd-fonts-fira-code'
 # 'nordic-darker-standard-buttons-theme'
 # 'nordic-darker-theme'
@@ -56,7 +56,7 @@ PKGS=(
 'plasma-pa'
 'ocs-url' # install packages from websites
 'sddm-nordic-theme-git'
-'snapper-gui-git'
+# 'snapper-gui-git'
 'ttf-cascadia-code'
 'ttf-droid'
 'ttf-hack'
@@ -65,7 +65,7 @@ PKGS=(
 'ttf-roboto-mono'
 'ulauncher'
 'zoom' # video conferences
-'snap-pac'
+# 'snap-pac'
 )
 
 for PKG in "${PKGS[@]}"; do
@@ -80,6 +80,8 @@ pip install konsave
 konsave -i $HOME/BetterArch/kde.knsv
 $SLEEP
 konsave -a kde
+$ECHO "==> Adding neofetch"
+$ECHO "neofetch" >> $HOME/.bashrc
 
-$ECHO "${GREEN}\n[+] Done!\n${NC}"
+$ECHO "${GREEN}\n[+] Done with user!\n${NC}"
 exit
