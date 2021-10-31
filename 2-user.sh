@@ -75,6 +75,26 @@ done
 export PATH=$PATH:~/.local/bin
 # $ECHO "==> Copying dotfiles"
 # cp -r $HOME/BetterArch/dotfiles/* $HOME/.config/
+
+sleep 10
+$ECHO "==> Copying config"
+mkdir -p $HOME/.config
+cp -r $HOME/BetterArch/config/* $HOME/.config/
+
+sleep 10
+$ECHO "==> Copying local"
+mkdir -p $HOME/.local
+cp -r $HOME/BetterArch/local/* $HOME/.local/
+
+sleep 10
+$ECHO "==> Copying /usr/share/"
+cp -r $HOME/BetterArch/usr/share/* /usr/share/
+
+sleep 10
+$ECHO "==> Copying /etc/sddm.conf.d/"
+mkdir -p /etc/sddm.conf.d
+cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d/
+
 $ECHO "==> Installing konsave using pip"
 pip install konsave
 konsave -i $HOME/BetterArch/kde.knsv
