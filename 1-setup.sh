@@ -286,16 +286,55 @@ fi
 if [ $(whoami) = "root"  ]; then
     $ECHO "${GREEN}==> Addding User $username ${NC}"
     $SLEEP
-    useradd -m -G wheel,libvirt -s /bin/bash ${username}
-    $ECHO "==> Prompting For Password"
+    $ECHO "==> This is the username ${username}"
     $SLEEP
-    passwd ${username}
-    $ECHO "==> Copying BetterArch to home"
-    cp -R /root/BetterArch/ /home/${username}/
-    $ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
-    chown -R ${username}: /home/${username}/BetterArch
-    $READ "[+] Enter the Hostname: " nameofmachine
-    $ECHO ${nameofmachine} > /etc/hostname
+    $READ "[?] want to continue [y/n] " answer
+    $SLEEP
+    if [ $answer == "y" ]; then
+    	useradd -m -G wheel -s /bin/bash ${username}
+    	$ECHO "==> Prompting For Password"
+    	$SLEEP
+    	passwd ${username}
+    	$ECHO "==> Copying BetterArch to home"
+    	cp -R /root/BetterArch/ /home/${username}/
+    	$ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
+    	chown -R ${username}: /home/${username}/BetterArch
+    	$READ "[+] Enter the Hostname: " nameofmachine
+    	$ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
+    elif [ $answer == "n" ]; then
+    	$ECHO "If statement process echoed into new file called if-stop.sh"
+	cat << EOF > if-stop.sh
+	useradd -m -G wheel -s /bin/bash ${username}
+    	$ECHO "==> Prompting For Password"
+    	$SLEEP
+    	passwd ${username}
+    	$ECHO "==> Copying BetterArch to home"
+    	cp -R /root/BetterArch/ /home/${username}/
+    	$ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
+    	chown -R ${username}: /home/${username}/BetterArch
+    	$READ "[+] Enter the Hostname: " nameofmachine
+    	$ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
+	EOF
+    	$ECHO "[!] Exiting !" && $SLEEP
+	exit
+    else
+   	$ECHO "If statement process echoed into new file called if-stop.sh"
+	cat << EOF > if-stop.sh
+	useradd -m -G wheel -s /bin/bash ${username}
+    	$ECHO "==> Prompting For Password"
+    	$SLEEP
+    	passwd ${username}
+    	$ECHO "==> Copying BetterArch to home"
+    	cp -R /root/BetterArch/ /home/${username}/
+    	$ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
+    	chown -R ${username}: /home/${username}/BetterArch
+    	$READ "[+] Enter the Hostname: " nameofmachine
+    	$ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
+	EOF
+    	$ECHO "[!] Exiting !" && $SLEEP
+	exit
+    fi
+    
 else
     $ECHO "${RED}==> You are already a user proceed with aur installs${NC}"
 fi
