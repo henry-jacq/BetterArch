@@ -83,7 +83,8 @@ konsave -a kde
 $ECHO "==> Adding neofetch" && $SLEEP
 $ECHO "neofetch" >> $HOME/.bashrc
 $ECHO "==> Adding neofetch config" && $SLEEP
-cp -r $HOME/BetterArch/neofetch/ $HOME/.config/ || $ECHO "==> Directory not found. creating one" && mkdir $HOME/.config/ && cp -r $HOME/BetterArch/neofetch/ $HOME/.config/
-
+cp -r $HOME/BetterArch/config/neofetch/ $HOME/.config/ || $ECHO "==> Directory not found. creating one" && mkdir $HOME/.config/ && cp -r $HOME/BetterArch/config/neofetch/ $HOME/.config/
+$ECHO "==> Adding GTK files to local dir" && $SLEEP
+cp -r $HOME/BetterArch/local/* $HOME/.local/
 $ECHO "${GREEN}\n[+] Done with user!\n${NC}"
 exit
