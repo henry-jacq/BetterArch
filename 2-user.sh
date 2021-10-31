@@ -80,11 +80,11 @@ pip install konsave
 konsave -i $HOME/BetterArch/kde.knsv
 $SLEEP
 konsave -a kde
-$ECHO "==> Adding neofetch" && $SLEEP
+$ECHO "==> Adding neofetch in bashrc" && $SLEEP
 $ECHO "neofetch" >> $HOME/.bashrc
-$ECHO "==> Adding neofetch config" && $SLEEP
-cp -r $HOME/BetterArch/config/neofetch/ $HOME/.config/ || $ECHO "==> Directory not found. creating one" && mkdir $HOME/.config/ && cp -r $HOME/BetterArch/config/neofetch/ $HOME/.config/
-$ECHO "==> Adding GTK files to local dir" && $SLEEP
-cp -r $HOME/BetterArch/local/* $HOME/.local/
+$ECHO "==> Adding config to home" && $SLEEP
+cp -r $HOME/BetterArch/config/* / $HOME/.config/ && $ECHO "${GREEN}\n[+] Done with config!\n${NC}" || $ECHO "==> Directory not found. creating one" && mkdir $HOME/.config/ && cp -r $HOME/BetterArch/config/* $HOME/.config/
+$ECHO "==> Adding local to home" && $SLEEP
+cp -r $HOME/BetterArch/local/* $HOME/.local/ && $ECHO "${GREEN}\n[+] Done with config!\n${NC}"  || $ECHO "==> Directory not found. creating one" && mkdir $HOME/.local/ && cp -r $HOME/BetterArch/local/* $HOME/.local/
 $ECHO "${GREEN}\n[+] Done with user!\n${NC}"
 exit
