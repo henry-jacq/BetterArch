@@ -245,7 +245,7 @@ done
 # Determine processor type and install microcode
 # 
 $ECHO "==> Detecting Processor Type"
-pacman -S intel-ucode intel-gpu-tools intel-graphics-compiler intel-media-driver intel-media-sdk
+pacman -S intel-ucode intel-gpu-tools intel-graphics-compiler intel-media-driver intel-media-sdk --noconfirm --needed
 
 proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
 case "$proc_type" in
@@ -302,6 +302,8 @@ if [ $(whoami) = "root"  ]; then
     	chown -R ${username}: /home/${username}/BetterArch
     	$READ "[+] Enter the Hostname: " nameofmachine
     	$ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
+	export $nameofmachine
+	export $username
     elif [ $answer == "n" ]; then
     	$ECHO "If statement process echoed into new file called if-stop.sh"
 	cat < EOF >> if-stop.sh
@@ -316,7 +318,7 @@ if [ $(whoami) = "root"  ]; then
     	$READ "[+] Enter the Hostname: " nameofmachine
     	$ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
 	EOF
-    	$ECHO "[!] Exiting !" && $SLEEP
+    	$ECHO "[!] Exiting ! $0" && $SLEEP
 	exit
     else
     	$ECHO "[!] Exiting !" && $SLEEP
