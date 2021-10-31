@@ -86,5 +86,9 @@ $ECHO "==> Adding config to home" && $SLEEP
 cp -r $HOME/BetterArch/config/* / $HOME/.config/ && $ECHO "${GREEN}\n[+] Done with config!\n${NC}" || $ECHO "==> Directory not found. creating one" && mkdir $HOME/.config/ && cp -r $HOME/BetterArch/config/* $HOME/.config/
 $ECHO "==> Adding local to home" && $SLEEP
 cp -r $HOME/BetterArch/local/* $HOME/.local/ && $ECHO "${GREEN}\n[+] Done with config!\n${NC}"  || $ECHO "==> Directory not found. creating one" && mkdir $HOME/.local/ && cp -r $HOME/BetterArch/local/* $HOME/.local/
+$ECHO "==> Adding usr dir for sddm theme" && $SLEEP
+cp -r $HOME/BetterArch/usr/share/sddm/themes/* /usr/share/sddm/themes/ && $ECHO "${GREEN}\n[+] Done with sddm theme [Orchis]!\n${NC}" && $SLEEP
+$ECHO "==> Adding etc dir for sddm config" && $SLEEP
+cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d  && $ECHO "${GREEN}\n[+] Done with sddm config!\n${NC}" && $SLEEP || $ECHO "==> Directory not found. creating one" && mkdir /etc/sddm.conf.d/ && cp -r $HOME/BetterArch/etc/sddm.conf.d/* /etc/sddm.conf.d && $ECHO "${GREEN}\n[+] Done with sddm config!\n${NC}" && $SLEEP
 $ECHO "${GREEN}\n[+] Done with user!\n${NC}"
 exit
