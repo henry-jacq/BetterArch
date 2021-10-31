@@ -245,6 +245,7 @@ done
 # Determine processor type and install microcode
 # 
 $ECHO "==> Detecting Processor Type"
+pacman -S intel-ucode intel-gpu-tools intel-graphics-compiler intel-media-driver intel-media-sdk
 
 proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
 case "$proc_type" in
