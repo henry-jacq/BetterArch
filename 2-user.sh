@@ -47,10 +47,10 @@ PKGS=(
 'mangohud' # Gaming FPS Counter
 'mangohud-common'
 'nerd-fonts-fira-code'
-'nordic-darker-standard-buttons-theme'
-'nordic-darker-theme'
-'nordic-kde-git'
-'nordic-theme'
+# 'nordic-darker-standard-buttons-theme'
+# 'nordic-darker-theme'
+# 'nordic-kde-git'
+# 'nordic-theme'
 'noto-fonts-emoji'
 'papirus-icon-theme'
 'plasma-pa'
@@ -73,11 +73,11 @@ for PKG in "${PKGS[@]}"; do
 done
 
 export PATH=$PATH:~/.local/bin
-$ECHO "==> Copying dotfiles"
-cp -r $HOME/ArchTitus/dotfiles/* $HOME/.config/
+# $ECHO "==> Copying dotfiles"
+# cp -r $HOME/BetterArch/dotfiles/* $HOME/.config/
 $ECHO "==> Installing konsave using pip"
 pip install konsave
-konsave -i $HOME/ArchTitus/kde.knsv
+konsave -i $HOME/BetterArch/kde.knsv
 $SLEEP
 konsave -a kde
 
