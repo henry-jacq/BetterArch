@@ -57,7 +57,7 @@ $ECHO "
 $ECHO "${RED}[!] Removing no password permissions${NC}"
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 # Add sudo permissions
-$ECHO "${GREEN}[+] Adding sudo permissions to $(users)${NC}"
+$ECHO "${GREEN}[+] Adding sudo permissions to ${username}${NC}"
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
 # Replace in the same state
