@@ -33,7 +33,7 @@ $ECHO "${GREEN}\n[+] Setting up SDDM Theme${NC}"
 
 sudo cat <<EOF > /etc/sddm.conf
 [Theme]
-Current=Nordic
+Current=Orchis
 EOF
 
 # ------------------------------------------------------------------------
