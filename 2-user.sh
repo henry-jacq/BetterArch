@@ -42,7 +42,9 @@ PKGS=(
 'brave-bin' # Brave Browser
 'discord' #discord
 # 'dxvk-bin' # DXVK DirectX to Vulcan
+'franz-bin'
 'github-desktop-bin' # Github Desktop sync
+'koko'
 'lightly-git'
 # 'mangohud' # Gaming FPS Counter
 # 'mangohud-common'
@@ -55,8 +57,9 @@ PKGS=(
 'papirus-icon-theme'
 'plasma-pa'
 'ocs-url' # install packages from websites
-'sddm-nordic-theme-git'
+# 'sddm-nordic-theme-git'
 # 'snapper-gui-git'
+'sublime-text-4'
 'ttf-cascadia-code'
 'ttf-droid'
 'ttf-hack'
@@ -64,6 +67,7 @@ PKGS=(
 'ttf-roboto'
 'ttf-roboto-mono'
 'ulauncher'
+'visual-studio-code-bin' # visual studio code
 'zoom' # video conferences
 # 'snap-pac'
 )
