@@ -163,6 +163,7 @@ PKGS=(
 'jdk-openjdk' # Java 17
 'kate'
 'kvantum-qt5'
+'kdeconnect'
 'kde-gtk-config'
 'kitty'
 'konsole'
