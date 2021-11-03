@@ -126,13 +126,14 @@ PKGS=(
 'bluedevil'
 'bluez' # bluetooth
 'bluez-libs'
+'blueberry'
+'bluez-firmware'
 'breeze'
 'breeze-gtk'
 'bridge-utils'
 'btrfs-progs'
 'celluloid' # video players
 'cmatrix'
-'code' # Visual Studio code
 'cronie'
 'cups' # Printer
 'dialog'
@@ -143,11 +144,12 @@ PKGS=(
 'efibootmgr' # EFI boot
 'egl-wayland'
 'exfat-utils'
+'firefox'
 'flex'
 'fuse2'
 'fuse3'
 'fuseiso'
-'gamemode'
+# 'gamemode'
 'gcc' # Compiler
 'gimp' # Photo editing
 'git'
@@ -165,7 +167,6 @@ PKGS=(
 'kvantum-qt5'
 'kdeconnect'
 'kde-gtk-config'
-'kitty'
 'konsole'
 'layer-shell-qt'
 'libnewt'
@@ -182,8 +183,12 @@ PKGS=(
 'nano'
 'neofetch'
 'networkmanager'
+'networkmanager-openvpn'
+'networkmanager-vpnc'
+'network-manager-applet'
 'net-tools'
 'nmap'
+'nodejs'
 'ntfs-3g'
 'ntp'
 'okular'
@@ -219,6 +224,12 @@ PKGS=(
 'unzip'
 'usbutils'
 'vim'
+'virtualbox'
+'virtualbox-guest-iso'
+'virtualbox-guest-utils'
+'virtualbox-host-modules-arch'
+'vlc'
+'volumeicon'
 # 'virt-manager'
 # 'virt-viewer'
 'wget'
