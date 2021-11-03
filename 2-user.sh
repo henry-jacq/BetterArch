@@ -81,10 +81,14 @@ mkdir -p $HOME/.config
 cp -r $HOME/BetterArch/config/* $HOME/.config/
 chown -R ${username} $HOME/.config/
 
-$ECHO "==> Copying local"
-mkdir -p $HOME/.local
-cp -r $HOME/BetterArch/local/* $HOME/.local/
-chown -R ${username} $HOME/.local/
+$ECHO "==> Copying /usr/share/wallpapers/"
+if [[ -d /usr/share/wallpapers/ ]]; then
+    cp -r $HOME/BetterArch/local/* /usr/share/wallpapers/
+    # chown -R ${username} /usr/share/wallpapers/
+else
+    mkdir -p /usr/share/wallpapers/
+    cp -r $HOME/BetterArch/local/* /usr/share/wallpapers/
+fi
 
 $ECHO "==> Copying /usr/share/"
 sudo cp -r $HOME/BetterArch/usr/share/konsole /usr/share/
