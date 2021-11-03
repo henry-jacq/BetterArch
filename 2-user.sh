@@ -44,6 +44,7 @@ PKGS=(
 # 'dxvk-bin' # DXVK DirectX to Vulcan
 'franz-bin'
 'github-desktop-bin' # Github Desktop sync
+'google-chrome'
 'koko'
 'lightly-git'
 # 'mangohud' # Gaming FPS Counter
