@@ -224,6 +224,7 @@ PKGS=(
 'telegram-desktop' # Instant messaging
 'terminus-font'
 'traceroute'
+'ttf-fira-sans'
 'ufw'
 'unrar'
 'unzip'
