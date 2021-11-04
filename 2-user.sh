@@ -85,19 +85,19 @@ mkdir -p $HOME/.config
 cp -r $HOME/BetterArch/config/* $HOME/.config/
 chown -R ${username} $HOME/.config/
 
-if [[ -d /usr/share/wallpapers/ ]]; then
-    $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
-    cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/wallpapers/
-    $ECHO "==> Copying wallpapers to ~/.local/share/wallpapers"
-    cp -r $HOME/BetterArch/local/share/wallpapers/ ~/.local/share/wallpapers/
+# if [[ -d /usr/share/wallpapers/ ]]; then
+#     $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
+#     cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/wallpapers/
+#     $ECHO "==> Copying wallpapers to ~/.local/share/wallpapers"
+#     cp -r $HOME/BetterArch/local/share/wallpapers/ ~/.local/share/wallpapers/
 
-elif [[ -d /usr/share/wallpapers/ ]]; then
+# elif [[ -d /usr/share/wallpapers/ ]]; then
     mkdir -p /usr/share/wallpapers/
     $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
-    cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/wallpapers/
+    cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/
     $ECHO "==> Copying wallpapers to ~/.local/share/wallpapers"
-    cp -r $HOME/BetterArch/local/share/wallpapers/ ~/.local/share/wallpapers/
-fi
+    cp -r $HOME/BetterArch/local/share/wallpapers/ $HOME/.local/share/
+# fi
 
 # Konsole themes added
 $ECHO "==> Copying konsole themes"
