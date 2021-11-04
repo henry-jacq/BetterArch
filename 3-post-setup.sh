@@ -36,6 +36,10 @@ sudo cat <<EOF > /etc/sddm.conf
 Current=Orchis
 EOF
 
+$ECHO "${GREEN}\n[+] Generating grub configuration${NC}"
+mkdir -p /boot/grub/
+grub-mkconfig -o /boot/grub/grub.cfg
+
 # ------------------------------------------------------------------------
 
 $ECHO "${GREEN}\n[+] Enabling essential services${NC}"
