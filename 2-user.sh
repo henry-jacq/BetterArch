@@ -60,6 +60,7 @@ PKGS=(
 'ocs-url' # install packages from websites
 # 'sddm-nordic-theme-git'
 # 'snapper-gui-git'
+'spotify'
 'sublime-text-4'
 'ttf-cascadia-code'
 'ttf-droid'
