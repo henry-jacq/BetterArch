@@ -42,11 +42,11 @@ PKGS=(
 'brave-bin' # Brave Browser
 'discord' #discord
 # 'dxvk-bin' # DXVK DirectX to Vulcan
-'franz-bin'
+# 'franz-bin'
 'github-desktop-bin' # Github Desktop sync
 'google-chrome'
 'koko'
-# 'lightly-git'
+'lightly-git'
 # 'mangohud' # Gaming FPS Counter
 # 'mangohud-common'
 'nerd-fonts-fira-code'
@@ -68,7 +68,7 @@ PKGS=(
 'ttf-meslo' # Nerdfont package
 'ttf-roboto'
 'ttf-roboto-mono'
-'ulauncher'
+# 'ulauncher'
 'visual-studio-code-bin' # visual studio code
 'zoom' # video conferences
 # 'snap-pac'
@@ -85,14 +85,13 @@ mkdir -p $HOME/.config
 cp -r $HOME/BetterArch/config/* $HOME/.config/
 chown -R ${username} $HOME/.config/
 
-$ECHO "==> Copying /usr/share/wallpapers/"
 if [[ -d /usr/share/wallpapers/ ]]; then
     $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
     cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/wallpapers/
     $ECHO "==> Copying wallpapers to ~/.local/share/wallpapers"
     cp -r $HOME/BetterArch/local/share/wallpapers/ ~/.local/share/wallpapers/
 
-else
+elif [[ -d /usr/share/wallpapers/ ]]; then
     mkdir -p /usr/share/wallpapers/
     $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
     cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/wallpapers/
@@ -100,22 +99,35 @@ else
     cp -r $HOME/BetterArch/local/share/wallpapers/ ~/.local/share/wallpapers/
 fi
 
-$ECHO "==> Copying /usr/share/konsole"
+# Konsole themes added
+$ECHO "==> Copying konsole themes"
 sudo cp -r $HOME/BetterArch/usr/share/konsole /usr/share/
+
+# Konsole profile added
+$ECHO "==> Copying konsole profile"
+sudo cp -r $HOME/BetterArch/local/share/konsole/ $HOME/.local/share/
+
+# Adding sddm theme
 $ECHO "==> Copying /usr/share/sddm/themes/Orchis"
 sudo cp -r $HOME/BetterArch/usr/share/sddm/themes/Orchis/ /usr/share/sddm/themes/
-$ECHO "==> Copying profile img to /usr/share/faces"
-sudo cp -r $HOME/BetterArch/skel/lin.png /usr/share/sddm/faces/
-$ECHO "==> Renaming to .face.icon"
-sudo mv /usr/share/sddm/faces/lin.png /usr/share/sddm/faces/user.face.icon
-$ECHO "==> Copying face icon to home"
-sudo cp -r $HOME/BetterArch/skel/lin.png $HOME
-$ECHO "==> Renaming to .face.icon"
-mv $HOME/lin.png $HOME/.face.icon
 
-$ECHO "==> Copying /etc/sddm.conf.d/"
+# Eagle profile added
+$ECHO "==> Copying profile img to /usr/share/sddm/faces/"
+sudo cp -r $HOME/BetterArch/skel/lin.png /usr/share/sddm/faces/
+$ECHO "==> Renaming to user.face.icon"
+sudo mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
+$ECHO "==> Copying face icon to home"
+sudo cp -r $HOME/BetterArch/skel/eagle.png $HOME
+$ECHO "==> Renaming to .face.icon"
+mv $HOME/eagle.png $HOME/.face.icon
+
+# Copying sddm settings conf
+$ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
 sudo cp -r $HOME/BetterArch/etc/sddm.conf.d/ /etc/
 
+# adding neofetch to bashrc 
+$ECHO "==> Adding neofetch in bashrc" && $SLEEP
+$ECHO "neofetch" >> $HOME/.bashrc
 
 $ECHO "==> Installing konsave using pip"
 pip install konsave
@@ -123,8 +135,6 @@ konsave -i $HOME/BetterArch/kde.knsv
 $SLEEP
 konsave -a kde
 sleep 10
-# ----------------------------------------------------------------
-$ECHO "==> Adding neofetch in bashrc" && $SLEEP
-$ECHO "neofetch" >> $HOME/.bashrc
+
 
 exit
