@@ -36,10 +36,6 @@ sudo cat <<EOF > /etc/sddm.conf
 Current=Orchis
 EOF
 
-$ECHO "${GREEN}\n[+] Generating grub configuration${NC}"
-mkdir -p /boot/grub/
-grub-mkconfig -o /boot/grub/grub.cfg
-
 # ------------------------------------------------------------------------
 
 $ECHO "${GREEN}\n[+] Enabling essential services${NC}"
@@ -52,6 +48,21 @@ sudo systemctl stop dhcpcd.service && $SLEEP
 sudo systemctl enable NetworkManager.service && $SLEEP
 sudo systemctl enable bluetooth && $SLEEP
 
+# ------------------------------------------------------------------------
+
+$ECHO "${GREEN}\n[+] Generating grub configuration${NC}"
+mkdir -p /boot/grub/
+grub-mkconfig -o /boot/grub/grub.cfg
+$ECHO "==> Changing values in grub and regenerating grub"
+sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="net.ifnames=0"/' /etc/default/grub
+sed -i 's/GRUB_GFXMODE=auto/GRUB_GFXMODE=1920x1080/' /etc/default/grub
+sed -i 's/#GRUB_SAVEDEFAULT=true/GRUB_SAVEDEFAULT=saved/' /etc/default/grub
+sed -i 's/#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/' /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
+os-prober
+
+# ------------------------------------------------------------------------
+
 $ECHO "
 ###############################################################################
 # Cleaning
@@ -60,6 +71,7 @@ $ECHO "
 # Remove no password sudo permissions
 $ECHO "${RED}[!] Removing no password permissions${NC}"
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+
 # Add sudo permissions
 $ECHO "${GREEN}[+] Adding sudo permissions to ${username}${NC}"
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
