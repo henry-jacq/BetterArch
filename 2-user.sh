@@ -46,7 +46,7 @@ PKGS=(
 'github-desktop-bin' # Github Desktop sync
 'google-chrome'
 'koko'
-'lightly-git'
+# 'lightly-git'
 # 'mangohud' # Gaming FPS Counter
 # 'mangohud-common'
 'nerd-fonts-fira-code'
