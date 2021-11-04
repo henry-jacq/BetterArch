@@ -65,6 +65,7 @@ $ECHO """
 """
 $ECHO "${ORANGE}$(lsblk)${NC}"
 $READ "==> Please enter disk to work on (Example: /dev/sda): " DISK
+export DISK
 $ECHO "${RED}[!] THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK${NC}"
 $READ "[?] Are you sure you want to continue (Y/N): " formatdisk
 case $formatdisk in
