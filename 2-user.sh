@@ -78,8 +78,6 @@ for PKG in "${PKGS[@]}"; do
 done
 
 export PATH=$PATH:~/.local/bin
-# $ECHO "==> Copying dotfiles"
-# cp -r $HOME/BetterArch/dotfiles/* $HOME/.config/
 
 $ECHO "==> Copying config"
 mkdir -p $HOME/.config
@@ -88,21 +86,30 @@ chown -R ${username} $HOME/.config/
 
 $ECHO "==> Copying /usr/share/wallpapers/"
 if [[ -d /usr/share/wallpapers/ ]]; then
-    cp -r $HOME/BetterArch/local/* /usr/share/wallpapers/
-    # chown -R ${username} /usr/share/wallpapers/
+    $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
+    cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/wallpapers/
+    $ECHO "==> Copying wallpapers to ~/.local/share/wallpapers"
+    cp -r $HOME/BetterArch/local/share/wallpapers/ ~/.local/share/wallpapers/
+
 else
     mkdir -p /usr/share/wallpapers/
-    cp -r $HOME/BetterArch/local/* /usr/share/wallpapers/
+    $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
+    cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/wallpapers/
+    $ECHO "==> Copying wallpapers to ~/.local/share/wallpapers"
+    cp -r $HOME/BetterArch/local/share/wallpapers/ ~/.local/share/wallpapers/
 fi
 
-$ECHO "==> Copying /usr/share/"
+$ECHO "==> Copying /usr/share/konsole"
 sudo cp -r $HOME/BetterArch/usr/share/konsole /usr/share/
+$ECHO "==> Copying /usr/share/sddm/themes/Orchis"
 sudo cp -r $HOME/BetterArch/usr/share/sddm/themes/Orchis/ /usr/share/sddm/themes/
-$ECHO "==> Copying /usr/share/faces"
+$ECHO "==> Copying profile img to /usr/share/faces"
 sudo cp -r $HOME/BetterArch/skel/lin.png /usr/share/sddm/faces/
+$ECHO "==> Renaming to .face.icon"
 sudo mv /usr/share/sddm/faces/lin.png /usr/share/sddm/faces/user.face.icon
 $ECHO "==> Copying face icon to home"
 sudo cp -r $HOME/BetterArch/skel/lin.png $HOME
+$ECHO "==> Renaming to .face.icon"
 mv $HOME/lin.png $HOME/.face.icon
 
 $ECHO "==> Copying /etc/sddm.conf.d/"
