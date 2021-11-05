@@ -6,7 +6,7 @@
 # | |_/ / ___| |_| |_ ___ _ __/ /_\ \_ __ ___| |__
 # | ___ \/ _ \ __| __/ _ \ '__|  _  | '__/ __| '_ \
 # | |_/ /  __/ |_| ||  __/ |  | | | | | | (__| | | |
-# \____/ \___|\__|\__\___|_|  \_| |_/_|  \___|_| |_| v1.0
+# \____/ \___|\__|\__\___|_|  \_| |_/_|  \___|_| |_| v1.4
 #-------------------------------------------------------------------------
 # Author: Henry
 # GitHub: https://github.com/henry-jacq
@@ -49,9 +49,7 @@ $SLEEP
 # Checking Processor info
 prc=$(grep -c ^processor /proc/cpuinfo)
 $ECHO "==> You have " $prc" cores.\n"
-$SLEEP
-$SLEEP
-$SLEEP
+
 $ECHO "-------------------------------------------------"
 $ECHO "==> Changing the makeflags for "$prc" cores."
 TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
@@ -75,6 +73,7 @@ $ECHO "${GREEN}==> Generating locales${NC}" && $SLEEP
 locale-gen
 
 $ECHO "${GREEN}==> Setting Timezone${NC}" && $SLEEP
+ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 timedatectl --no-ask-password set-timezone Asia/Kolkata
 timedatectl --no-ask-password set-ntp 1
 
@@ -90,7 +89,7 @@ sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /et
 
 # Add parallel downloads
 $ECHO "${GREEN}==> Adding parallel downloads in pacman config${NC}" && $SLEEP
-sed -i 's/^#Para/Para/' /etc/pacman.conf
+sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 8/' /etc/pacman.conf
 
 # Enable multilib support
 $ECHO "${GREEN}==> Enabling multilib repo support in pacman config${NC}" && $SLEEP
@@ -184,6 +183,7 @@ PKGS=(
 'm4'
 'make'
 'milou'
+'mlocate'
 'nano'
 'neofetch'
 'networkmanager'
@@ -261,6 +261,7 @@ for PKG in "${PKGS[@]}"; do
     sudo pacman -S "$PKG" --noconfirm --needed
 done
 
+updatedb
 
 # Determine processor type and install microcode
 # 
