@@ -6,7 +6,7 @@
 # | |_/ / ___| |_| |_ ___ _ __/ /_\ \_ __ ___| |__
 # | ___ \/ _ \ __| __/ _ \ '__|  _  | '__/ __| '_ \
 # | |_/ /  __/ |_| ||  __/ |  | | | | | | (__| | | |
-# \____/ \___|\__|\__\___|_|  \_| |_/_|  \___|_| |_| v1.0
+# \____/ \___|\__|\__\___|_|  \_| |_/_|  \___|_| |_| v1.4
 #-------------------------------------------------------------------------
 # Author: Henry
 # GitHub: https://github.com/henry-jacq
@@ -85,56 +85,44 @@ mkdir -p $HOME/.config
 cp -r $HOME/BetterArch/config/* $HOME/.config/
 chown -R ${username} $HOME/.config/
 
-# if [[ -d /usr/share/wallpapers/ ]]; then
-#     $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
-#     cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/wallpapers/
-#     $ECHO "==> Copying wallpapers to ~/.local/share/wallpapers"
-#     cp -r $HOME/BetterArch/local/share/wallpapers/ ~/.local/share/wallpapers/
+# usr/share ----------------------------------------------------
+$ECHO "==> Copying wallpapers, konsole themes and sddm themes to /usr/share/"
+mkdir -p /usr/share/wallpapers/
+cp -r $HOME/BetterArch/usr/share/* /usr/share/
 
-# elif [[ -d /usr/share/wallpapers/ ]]; then
-    mkdir -p /usr/share/wallpapers/
-    $ECHO "==> Copying wallpapers to /usr/share/wallpapers"
-    cp -r $HOME/BetterArch/local/share/wallpapers/ /usr/share/
-    $ECHO "==> Copying wallpapers to ~/.local/share/wallpapers"
-    cp -r $HOME/BetterArch/local/share/wallpapers/ $HOME/.local/share/
-# fi
-
-# Konsole themes added
-$ECHO "==> Copying konsole themes"
-sudo cp -r $HOME/BetterArch/usr/share/konsole /usr/share/
-
-# Konsole profile added
-$ECHO "==> Copying konsole profile"
-sudo cp -r $HOME/BetterArch/local/share/konsole/ $HOME/.local/share/
-
-# Adding sddm theme
-$ECHO "==> Copying /usr/share/sddm/themes/Orchis"
-sudo cp -r $HOME/BetterArch/usr/share/sddm/themes/Orchis/ /usr/share/sddm/themes/
-
-# Eagle profile added
-$ECHO "==> Copying profile img to /usr/share/sddm/faces/"
-sudo cp -r $HOME/BetterArch/skel/lin.png /usr/share/sddm/faces/
-$ECHO "==> Renaming to user.face.icon"
-sudo mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
-$ECHO "==> Copying face icon to home"
-sudo cp -r $HOME/BetterArch/skel/eagle.png $HOME
-$ECHO "==> Renaming to .face.icon"
-mv $HOME/eagle.png $HOME/.face.icon
-
-# Copying sddm settings conf
+# Copying sddm settings conf ---------------------------------------------
 $ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
 sudo cp -r $HOME/BetterArch/etc/sddm.conf.d/ /etc/
 
+# Konsole profile added ----------------------------------------------------
+$ECHO "==> Copying konsole profile and wallpapers"
+sudo cp -r $HOME/BetterArch/local/share/ $HOME/.local/
+
+# Eagle profile img added -------------------------------------------------
+$ECHO "==> Copying profile img to /usr/share/sddm/faces/"
+sudo cp -r $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
+
+# renaming the user icon in /usr/share/sddm/faces/------------------------
+$ECHO "==> Renaming to user.face.icon"
+sudo mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
+
+# ------------------------------------------------------------------------
+$ECHO "==> Copying face icon and gtkrc to home"
+sudo cp -r $HOME/BetterArch/etc/skel/* $HOME
+
+# Renaming user icon to .face---------------------------------------------
+$ECHO "==> Renaming to .face.icon"
+mv $HOME/eagle.png $HOME/.face.icon
+
+# ------------------------------------------------------------------------
 # adding neofetch to bashrc 
 $ECHO "==> Adding neofetch in bashrc" && $SLEEP
 $ECHO "neofetch" >> $HOME/.bashrc
 
-$ECHO "==> Installing konsave using pip"
-pip install konsave
-konsave -i $HOME/BetterArch/kde.knsv
-$SLEEP
-konsave -a kde
-sleep 10
-
+# $ECHO "==> Installing konsave using pip"
+# pip install konsave
+# konsave -i $HOME/BetterArch/kde.knsv
+# $SLEEP
+# konsave -a kde
 
 exit
