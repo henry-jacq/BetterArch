@@ -80,7 +80,7 @@ done
 
 export PATH=$PATH:~/.local/bin
 
-$ECHO "==> Copying config"
+$ECHO "==> Copying config files"
 mkdir -p $HOME/.config
 cp -r $HOME/BetterArch/config/* $HOME/.config/
 chown -R ${username} $HOME/.config/
@@ -95,7 +95,7 @@ $ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
 sudo cp -r $HOME/BetterArch/etc/sddm.conf.d/ /etc/
 
 # Konsole profile added ----------------------------------------------------
-$ECHO "==> Copying konsole profile and wallpapers"
+$ECHO "==> Copying konsole profile"
 sudo cp -r $HOME/BetterArch/local/share/ $HOME/.local/
 
 # Eagle profile img added -------------------------------------------------

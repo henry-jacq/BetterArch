@@ -25,20 +25,23 @@ $ECHO "\n==> Reached Final setup and configuration"
 
 # ------------------------------------------------------------------------
 
-
+# wallpapers
 
 # ------------------------------------------------------------------------
 $ECHO "${GREEN}\n[+] Installing grub${NC}"
-sudo grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+
 $ECHO "${GREEN}\n[+] Generating grub configuration${NC}"
 mkdir -p /boot/grub/
 grub-mkconfig -o /boot/grub/grub.cfg
+
 $ECHO "==> Changing values in grub and regenerating grub"
 sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="net.ifnames=0"/' /etc/default/grub
 sed -i 's/GRUB_GFXMODE=auto/GRUB_GFXMODE=1920x1080/' /etc/default/grub
 sed -i 's/#GRUB_SAVEDEFAULT=true/GRUB_SAVEDEFAULT=saved/' /etc/default/grub
 sed -i 's/#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/' /etc/default/grub
 $ECHO "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
+
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # ------------------------------------------------------------------------
@@ -59,12 +62,12 @@ EOF
 $ECHO "${GREEN}\n[+] Enabling essential services${NC}"
 
 systemctl enable cups.service && $SLEEP
-sudo ntpd -qg && $SLEEP
-sudo systemctl enable ntpd.service && $SLEEP
-sudo systemctl disable dhcpcd.service && $SLEEP
-sudo systemctl stop dhcpcd.service && $SLEEP
-sudo systemctl enable NetworkManager.service && $SLEEP
-sudo systemctl enable bluetooth && $SLEEP
+ntpd -qg && $SLEEP
+systemctl enable ntpd.service && $SLEEP
+systemctl disable dhcpcd.service && $SLEEP
+systemctl stop dhcpcd.service && $SLEEP
+systemctl enable NetworkManager.service && $SLEEP
+systemctl enable bluetooth && $SLEEP
 
 # ------------------------------------------------------------------------
 

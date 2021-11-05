@@ -21,10 +21,10 @@ ECHO="echo -e"
 READ="read -p"
 SLEEP="sleep 0.5"
 
-$ECHO """
+$ECHO "
 --------------------------------------
 --          Network Setup           --
---------------------------------------"""
+--------------------------------------"
 
 # Enabling NetworkManager
 $ECHO "${BLUE}==> Installing networkmanager dhclient${NC}"
@@ -34,10 +34,11 @@ $ECHO "${BLUE}==> Enabling service NetworkManager${NC}"
 $SLEEP
 systemctl enable --now NetworkManager
 
-$ECHO "-------------------------------------------------"
-$ECHO "Setting up mirrors for optimal download          "
-$ECHO "-------------------------------------------------"
-$SLEEP
+$ECHO "
+-------------------------------------------------
+---- Setting up mirrors for optimal download ----
+-------------------------------------------------" && $SLEEP
+
 pacman -S --noconfirm pacman-contrib curl reflector rsync
 $SLEEP
 
@@ -171,6 +172,7 @@ PKGS=(
 'konsole'
 'ktorrent'
 'layer-shell-qt'
+'latte-dock'
 'libnewt'
 'libtool'
 # 'linux'
@@ -225,6 +227,7 @@ PKGS=(
 'systemsettings'
 'telegram-desktop' # Instant messaging
 'terminus-font'
+'thunderbird'
 'traceroute'
 'ttf-fira-sans'
 'ufw'
@@ -258,15 +261,15 @@ PKGS=(
 for PKG in "${PKGS[@]}"; do
     $ECHO "${GREEN}[+] Installing: ${PKG}${NC}"
     $SLEEP
-    sudo pacman -S "$PKG" --noconfirm --needed
+    pacman -S "$PKG" --noconfirm --needed
 done
 
 updatedb
 
-# Determine processor type and install microcode
-# 
-$ECHO "==> Detecting Processor Type"
 pacman -S intel-ucode intel-gpu-tools intel-graphics-compiler intel-media-driver intel-media-sdk --noconfirm --needed
+
+# Determine processor type and install microcode
+$ECHO "==> Detecting Processor Type"
 
 proc_type=$(lscpu | awk '/Vendor ID:/ {print $3}')
 case "$proc_type" in
@@ -300,10 +303,8 @@ fi
 $ECHO "${GREEN}\n[+] Done !\n${NC}"
 sleep 2
 
-if ! source install.conf; then
-    $READ "[+] Enter the Username: " username
-    $ECHO "username=${username}" >> ${HOME}/BetterArch/install.conf
-fi
+$READ "[+] Enter the Username: " username
+$ECHO "username=${username}" >> ${HOME}/BetterArch/install.conf
 
 if [ $(whoami) = "root"  ]; then
     $ECHO "${GREEN}==> Addding User $username ${NC}"
@@ -323,29 +324,28 @@ if [ $(whoami) = "root"  ]; then
     	chown -R ${username}: /home/${username}/BetterArch
     	$READ "[+] Enter the Hostname: " nameofmachine
     	$ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
-	export $nameofmachine
-	export $username
+        export $nameofmachine
+        export $username
     elif [ $answer == "n" ]; then
     	$ECHO "If statement process echoed into new file called if-stop.sh"
-	cat < EOF >> if-stop.sh
-	useradd -m -G wheel -s /bin/bash ${username}
-    	$ECHO "==> Prompting For Password"
-    	$SLEEP
-    	passwd ${username}
-    	$ECHO "==> Copying BetterArch to home"
-    	cp -R /root/BetterArch/ /home/${username}/
-    	$ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
-    	chown -R ${username}: /home/${username}/BetterArch
-    	$READ "[+] Enter the Hostname: " nameofmachine
-    	$ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
-	EOF
+        cat < EOF >> if-stop.sh
+        useradd -m -G wheel -s /bin/bash ${username}
+            $ECHO "==> Prompting For Password"
+            $SLEEP
+            passwd ${username}
+            $ECHO "==> Copying BetterArch to home"
+            cp -R /root/BetterArch/ /home/${username}/
+            $ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
+            chown -R ${username}: /home/${username}/BetterArch
+            $READ "[+] Enter the Hostname: " nameofmachine
+            $ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
+        EOF
     	$ECHO "[!] Exiting ! $0" && $SLEEP
-	exit
+        exit
     else
-    	$ECHO "[!] Exiting !" && $SLEEP
-	exit
+    	$ECHO "[!] Exiting ! $0" && $SLEEP
+        exit
     fi
-    
 else
     $ECHO "${RED}==> You are already a user proceed with aur installs${NC}"
 fi

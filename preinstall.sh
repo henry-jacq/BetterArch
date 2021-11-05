@@ -40,7 +40,7 @@ sed -i 's/^#Para/Para/' /etc/pacman.conf
 pacman -S --noconfirm reflector rsync
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup && $ECHO "==> Creating a mirrorlist backup"
 
-$ECHO "
+$ECHO """
 -------------------------------------------------------------------------
 ______      _   _             ___           _
 | ___ \    | | | |           / _ \         | |
@@ -51,7 +51,7 @@ ______      _   _             ___           _
 -------------------------------------------------------------------------
  Setting up $iso mirrors for faster downloads
 -------------------------------------------------------------------------
-"
+"""
 reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
 mkdir /mnt
 
@@ -92,7 +92,7 @@ case $formatdisk in
     # label partitions
     sgdisk -c 1:"UEFISYS" ${DISK}
     sgdisk -c 2:"ROOT" ${DISK}
-    
+
     # make filesystems
     $ECHO "==> \nCreating Filesystems...\n$HR"
     if [[ ${DISK} =~ "nvme" ]]; then
@@ -140,39 +140,48 @@ $ECHO """
 $SLEEP
 pacstrap /mnt base base-devel linux linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
 
-$ECHO "==> Generating Fstab file"
-$SLEEP
+$ECHO "==> Generating Fstab file" && $SLEEP
 genfstab -U /mnt >> /mnt/etc/fstab
-$ECHO "==> Adding Ubuntu key"
-$SLEEP
+
+$ECHO "==> Adding Ubuntu key" && $SLEEP
 $ECHO "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
+
+$ECHO "==> Copying BetterArch to /mnt/root/BetterArch"
+cp -R ${SCRIPT_DIR} /mnt/root/BetterArch
+
+$ECHO "==> Copying pacman mirrorlist to /mnt/../"
+cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
+
+# $ECHO "
+# ----------------------------------------
+# -- GRUB BIOS Bootloader Install&Check --
+# ----------------------------------------"
 
 $ECHO """
 --------------------------------------
 -- Bootloader Systemd Installation  --
 --------------------------------------
-"""
+# """
+#
+# if [[ ! -d "/sys/firmware/efi" ]]; then
+#     grub-install --boot-directory=/boot ${DISK}
+# fi
 
 bootctl install --esp-path=/mnt/boot
 
 [ ! -d "/mnt/boot/loader/entries" ] && mkdir -p /mnt/boot/loader/entries
 cat <<EOF > /mnt/boot/loader/entries/arch.conf
 title Arch Linux
-linux /vmlinuz-linux  
-initrd  /initramfs-linux.img  
+linux /vmlinuz-linux
+initrd  /initramfs-linux.img
 options root=LABEL=ROOT rw rootflags=subvol=@
 EOF
-
-$ECHO "==> Copying BetterArch to /mnt/root/BetterArch"
-cp -R ${SCRIPT_DIR} /mnt/root/BetterArch
-$ECHO "==> Copying mirrorlist to /mnt/../"
-cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
 $ECHO "--------------------------------------"
 $ECHO "-- Check for low memory systems <8G --"
 $ECHO "--------------------------------------"
 
-TOTALMEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
+TOTALMEM=$(cat /proc/meminfo | grep -i 'emmtotal' | grep -o '[[:digit:]]*')
 
 if [[  $TOTALMEM -lt 8000000 ]]; then
     #Put swap into the actual system, not into RAM disk, otherwise there is no point in it, it'll cache RAM into RAM. So, /mnt/ everything.
@@ -186,7 +195,3 @@ if [[  $TOTALMEM -lt 8000000 ]]; then
     #The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the sysytem itself.
     $ECHO "/opt/swap/swapfile    none    swap    sw      0       0" >> /mnt/etc/fstab #Add swap to fstab, so it KEEPS working after installation.
 fi
-
-$ECHO "--------------------------------------"
-$ECHO "--   SYSTEM READY FOR 0-setup       --"
-$ECHO "--------------------------------------"
