@@ -180,7 +180,7 @@ PKGS=(
 # 'linux-headers'
 'linux-zen'
 'lsof'
-'lutris'
+# 'lutris'
 'lzop'
 'm4'
 'make'
