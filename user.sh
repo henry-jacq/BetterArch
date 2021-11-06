@@ -84,37 +84,39 @@ $ECHO "==> Copying config files"
 mkdir -p $HOME/.config
 cp -r $HOME/BetterArch/config/* $HOME/.config/
 chown -R ${username} $HOME/.config/
-
-# usr/share ----------------------------------------------------
+$SLEEP
+# usr/share ---------------------------------------------------- ###
 $ECHO "==> Copying wallpapers, konsole themes and sddm themes to /usr/share/"
 mkdir -p /usr/share/wallpapers/
-cp -r $HOME/BetterArch/usr/share/* /usr/share/
-
-# Copying sddm settings conf ---------------------------------------------
+sleep 10
+cp -r -a -f --copy-contents $HOME/BetterArch/usr/share/* /usr/share/
+$SLEEP
+# Copying sddm settings conf ---------------------------------------------###
 $ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
-sudo cp -r $HOME/BetterArch/etc/sddm.conf.d/ /etc/
-
-# Konsole profile added ----------------------------------------------------
+cp -r -a -f $HOME/BetterArch/etc/sddm.conf.d/ /etc/
+$SLEEP
+# Konsole profile added (local) ---------------------------------------------------- ###
 $ECHO "==> Copying konsole profile"
-sudo cp -r $HOME/BetterArch/local/share/ $HOME/.local/
-
+cp -r -a -f --copy-contents $HOME/BetterArch/local/share/ $HOME/.local/
+chown -R ${username} $HOME/.local/
+$SLEEP
 # Eagle profile img added -------------------------------------------------
 $ECHO "==> Copying profile img to /usr/share/sddm/faces/"
-sudo cp -r $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
-
+cp -r $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
+$SLEEP
 # renaming the user icon in /usr/share/sddm/faces/------------------------
 $ECHO "==> Renaming to user.face.icon"
-sudo mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
-
-# ------------------------------------------------------------------------
+mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
+$SLEEP
+# ------------------------------------------------------------------------###
 $ECHO "==> Copying face icon and gtkrc to home"
-sudo cp -r $HOME/BetterArch/etc/skel/* $HOME
-
+cp -r -a -f --copy-contents $HOME/BetterArch/etc/skel/* $HOME
+$SLEEP
 # Renaming user icon to .face---------------------------------------------
 $ECHO "==> Renaming to .face.icon"
 mv $HOME/eagle.png $HOME/.face.icon
-
-# ------------------------------------------------------------------------
+$SLEEP
+# ------------------------------------------------------------------------### copied but not correctly pasted the contents
 # adding neofetch to bashrc 
 $ECHO "==> Adding neofetch in bashrc" && $SLEEP
 $ECHO "neofetch" >> $HOME/.bashrc
@@ -124,5 +126,5 @@ $ECHO "neofetch" >> $HOME/.bashrc
 # konsave -i $HOME/BetterArch/kde.knsv
 # $SLEEP
 # konsave -a kde
-
+ -a -f --copy-contents
 exit

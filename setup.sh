@@ -162,6 +162,7 @@ PKGS=(
 'gst-plugins-ugly'
 'gufw'
 'haveged'
+'hplip'
 'htop'
 'iptables-nft'
 'jdk-openjdk' # Java 17
