@@ -22,7 +22,10 @@ READ="read -p"
 SLEEP="sleep 0.5"
 
 $ECHO "\n==> Reached Final setup and configuration"
+
 $ECHO "==> This is the Username ${username}"
+
+sleep 5
 # ------------------------------------------------------------------------
 
 $ECHO "==> Copying config files"
@@ -67,6 +70,7 @@ mkdir -p /boot/grub/
 grub-mkconfig -o /boot/grub/grub.cfg
 
 $ECHO "==> Changing values in grub and regenerating grub"
+sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet splash"/' /etc/default/grub
 sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="net.ifnames=0"/' /etc/default/grub
 sed -i 's/GRUB_GFXMODE=auto/GRUB_GFXMODE=1920x1080/' /etc/default/grub
 sed -i 's/#GRUB_SAVEDEFAULT=true/GRUB_SAVEDEFAULT=saved/' /etc/default/grub
@@ -77,16 +81,28 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # ------------------------------------------------------------------------
 
-$ECHO "${GREEN}\n[+] Enabling Login Display Manager${NC}"
+$ECHO "${GREEN}\n[+] Adding modules and hooks to mkinitcpio.conf${NC}"
+sed -i 's/MODULES=()/MODULES=(i915)/' /etc/mkinitcpio.conf
+sed -i 's/^HOOKS=/HOOKS=(base udev plymouth autodetect modconf block filesystems keyboard fsck)/' /etc/mkinitcpio.conf
 
-sudo systemctl enable sddm.service
+$ECHO "${GREEN}\n[+] Changing ShowDelay value in plymouthd.conf${NC}"
+sed -i 's/^ShowDelay=/ShowDelay=0/' /etc/plymouth/plymouthd.conf
+sed -i 's/^DeviceTimeout=/DeviceTimeout=5/' /etc/plymouth/plymouthd.conf
+
+$ECHO "${GREEN}\n[+] Setting up plymouth Theme${NC}"
+plymouth-set-default-theme -R arch10
 
 $ECHO "${GREEN}\n[+] Setting up SDDM Theme${NC}"
-
 sudo cat <<EOF > /etc/sddm.conf
 [Theme]
 Current=Orchis
 EOF
+
+# ------------------------------------------------------------------------
+
+$ECHO "${GREEN}\n[+] Enabling Login Display Manager${NC}"
+
+sudo systemctl enable sddm.service
 
 # ------------------------------------------------------------------------
 

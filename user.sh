@@ -57,10 +57,9 @@ PKGS=(
 # 'nordic-theme'
 'noto-fonts-emoji'
 'papirus-icon-theme'
-'plasma-pa'
+'plasma'
 'plymouth'
 'plymouth-theme-arch10'
-'plymouth-theme-arch-charge'
 'plymouth-theme-arch-charge-big'
 'ocs-url' # install packages from websites
 # 'sddm-nordic-theme-git'

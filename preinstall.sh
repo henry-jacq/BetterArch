@@ -174,7 +174,7 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 title Arch Linux
 linux /vmlinuz-linux
 initrd  /initramfs-linux.img
-options root=LABEL=ROOT rw rootflags=subvol=@
+options root=LABEL=ROOT rw rootflags=subvol=@ quiet splash loglevel=3 rd.udev.log_priority=3 vt.global_cursor_default=1
 EOF
 
 $ECHO "--------------------------------------"
