@@ -21,6 +21,7 @@ ECHO="echo -e"
 READ="read -p"
 SLEEP="sleep 0.5"
 
+$ECHO ${username}
 
 $ECHO "\n${GREEN}==> Installing AUR Helper\n${NC}" && $SLEEP
 # You can solve users running this script as root with this and then doing the same for the next for statement. However I will leave this up to you.
@@ -57,6 +58,10 @@ PKGS=(
 'noto-fonts-emoji'
 'papirus-icon-theme'
 'plasma-pa'
+'plymouth'
+'plymouth-theme-arch10'
+'plymouth-theme-arch-charge'
+'plymouth-theme-arch-charge-big'
 'ocs-url' # install packages from websites
 # 'sddm-nordic-theme-git'
 # 'snapper-gui-git'
@@ -82,35 +87,35 @@ export PATH=$PATH:~/.local/bin
 
 $ECHO "==> Copying config files"
 mkdir -p $HOME/.config
-cp -r $HOME/BetterArch/config/* $HOME/.config/
+cp -R $HOME/BetterArch/config/* $HOME/.config/
 chown -R ${username} $HOME/.config/
 $SLEEP
 # usr/share ---------------------------------------------------- ###
 $ECHO "==> Copying wallpapers, konsole themes and sddm themes to /usr/share/"
 mkdir -p /usr/share/wallpapers/
 sleep 10
-cp -r -a -f --copy-contents $HOME/BetterArch/usr/share/* /usr/share/
+cp -R $HOME/BetterArch/usr/share/* /usr/share/
 $SLEEP
 # Copying sddm settings conf ---------------------------------------------###
 $ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
-cp -r -a -f $HOME/BetterArch/etc/sddm.conf.d/ /etc/
+cp -R $HOME/BetterArch/etc/sddm.conf.d/ /etc/
 $SLEEP
 # Konsole profile added (local) ---------------------------------------------------- ###
 $ECHO "==> Copying konsole profile"
-cp -r -a -f --copy-contents $HOME/BetterArch/local/share/ $HOME/.local/
+cp -R $HOME/BetterArch/local/share/ $HOME/.local/
 chown -R ${username} $HOME/.local/
 $SLEEP
 # Eagle profile img added -------------------------------------------------
-$ECHO "==> Copying profile img to /usr/share/sddm/faces/"
-cp -r $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
-$SLEEP
+# $ECHO "==> Copying profile img to /usr/share/sddm/faces/"
+# cp -R $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
+# $SLEEP
 # renaming the user icon in /usr/share/sddm/faces/------------------------
-$ECHO "==> Renaming to user.face.icon"
-mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
-$SLEEP
+# $ECHO "==> Renaming to user.face.icon"
+# mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
+# $SLEEP
 # ------------------------------------------------------------------------###
 $ECHO "==> Copying face icon and gtkrc to home"
-cp -r -a -f --copy-contents $HOME/BetterArch/etc/skel/* $HOME
+cp -R $HOME/BetterArch/etc/skel/* $HOME
 $SLEEP
 # Renaming user icon to .face---------------------------------------------
 $ECHO "==> Renaming to .face.icon"
@@ -126,5 +131,4 @@ $ECHO "neofetch" >> $HOME/.bashrc
 # konsave -i $HOME/BetterArch/kde.knsv
 # $SLEEP
 # konsave -a kde
- -a -f --copy-contents
 exit
