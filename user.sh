@@ -44,7 +44,7 @@ PKGS=(
 'discord' #discord
 # 'dxvk-bin' # DXVK DirectX to Vulcan
 # 'franz-bin'
-'github-desktop-bin' # Github Desktop sync
+'github-desktop-bin' # Github Desktop sync ## It is in chaotic-aur ## maia helium
 'google-chrome'
 'koko'
 'lightly-git'
