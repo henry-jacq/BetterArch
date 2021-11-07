@@ -22,10 +22,41 @@ READ="read -p"
 SLEEP="sleep 0.5"
 
 $ECHO "\n==> Reached Final setup and configuration"
-
+$ECHO "==> This is the Username ${username}"
 # ------------------------------------------------------------------------
 
-# wallpapers
+$ECHO "==> Copying config files"
+mkdir -p $HOME/.config
+cp -R $HOME/BetterArch/config/* $HOME/.config/
+chown -R ${username} $HOME/.config/
+$SLEEP
+# usr/share ---------------------------------------------------- ###
+$ECHO "==> Copying wallpapers, konsole themes and sddm themes to /usr/share/"
+mkdir -p /usr/share/wallpapers/
+sleep 10
+cp -R $HOME/BetterArch/usr/share/* /usr/share/
+$SLEEP
+# Copying sddm settings conf ---------------------------------------------###
+$ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
+cp -R $HOME/BetterArch/etc/sddm.conf.d/ /etc/
+$SLEEP
+# Konsole profile added (local) ---------------------------------------------------- ###
+$ECHO "==> Copying konsole profile"
+cp -R $HOME/BetterArch/local/share/ $HOME/.local/
+chown -R ${username} $HOME/.local/
+$SLEEP
+# Eagle profile img added -------------------------------------------------
+# $ECHO "==> Copying profile img to /usr/share/sddm/faces/"
+# cp -R $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
+# $SLEEP
+# renaming the user icon in /usr/share/sddm/faces/------------------------
+# $ECHO "==> Renaming to user.face.icon"
+# mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
+# $SLEEP
+# ------------------------------------------------------------------------###
+$ECHO "==> Copying face icon and gtkrc to home"
+cp -R $HOME/BetterArch/etc/skel/* $HOME
+$SLEEP
 
 # ------------------------------------------------------------------------
 $ECHO "${GREEN}\n[+] Installing grub${NC}"
