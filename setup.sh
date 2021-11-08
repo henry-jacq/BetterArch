@@ -212,6 +212,7 @@ PKGS=(
 'pkgconf'
 'plasma-nm'
 'powerline-fonts'
+'powerpill'
 'print-manager'
 'pulseaudio'
 'pulseaudio-alsa'

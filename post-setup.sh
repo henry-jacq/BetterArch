@@ -14,7 +14,6 @@
 
 NC="\e[0m"
 RED="\e[31m"
-BLUE="\e[34m"
 GREEN="\e[32m"
 ORANGE="\e[33m"
 ECHO="echo -e"
@@ -26,6 +25,24 @@ $ECHO "\n==> Reached Final setup and configuration"
 $ECHO "==> This is the Username ${username}"
 
 sleep 5
+
+# ------------------------------------------------------------------------
+
+$ECHO "${ORANGE}==> Adding chaotic-aur${NC}"
+$ECHO "${ORANGE}==> Receiving the keys from the keyserver${NC}"
+pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+$ECHO "${ORANGE}==> Signing the key${NC}"
+pacman-key --lsign-key 3056513887B78AEB
+$ECHO "${ORANGE}==> Installing chaotic-keyring and mirrorlist${NC}"
+pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+$ECHO "${ORANGE}==> Adding chaotic-aur repository to pacman config${NC}"
+$ECHO "" >> /etc/pacman.conf
+$ECHO "[chaotic-aur]" >> /etc/pacman.conf
+$ECHO "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
+$ECHO ${ORANGE}"==> Updating the System${NC}"
+pacman -Syyu
+$ECHO "${GREEN}==> System updated${NC}"
+
 # ------------------------------------------------------------------------
 
 $ECHO "==> Copying config files"
@@ -41,11 +58,11 @@ cp -R $HOME/BetterArch/usr/share/* /usr/share/
 $SLEEP
 # Copying sddm settings conf ---------------------------------------------###
 $ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
-cp -R $HOME/BetterArch/etc/sddm.conf.d/ /etc/
+cp -R $HOME/BetterArch/etc/sddm.conf.d/* /etc/
 $SLEEP
 # Konsole profile added (local) ---------------------------------------------------- ###
 $ECHO "==> Copying konsole profile"
-cp -R $HOME/BetterArch/local/share/ $HOME/.local/
+cp -R $HOME/BetterArch/local/share/* $HOME/.local/
 chown -R ${username} $HOME/.local/
 $SLEEP
 # Eagle profile img added -------------------------------------------------
@@ -70,11 +87,12 @@ mkdir -p /boot/grub/
 grub-mkconfig -o /boot/grub/grub.cfg
 
 $ECHO "==> Changing values in grub and regenerating grub"
-sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet splash"/' /etc/default/grub
+sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet splash"/' /etc/default/grub
 sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="net.ifnames=0"/' /etc/default/grub
 sed -i 's/GRUB_GFXMODE=auto/GRUB_GFXMODE=1920x1080/' /etc/default/grub
 sed -i 's/#GRUB_SAVEDEFAULT=true/GRUB_SAVEDEFAULT=saved/' /etc/default/grub
 sed -i 's/#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/' /etc/default/grub
+$ECHO "" >> /etc/default/grub
 $ECHO "GRUB_DISABLE_OS_PROBER=false" >> /etc/default/grub
 
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -82,10 +100,14 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # ------------------------------------------------------------------------
 
 $ECHO "${GREEN}\n[+] Adding modules and hooks to mkinitcpio.conf${NC}"
+
 sed -i 's/MODULES=()/MODULES=(i915)/' /etc/mkinitcpio.conf
 sed -i 's/^HOOKS=/HOOKS=(base udev plymouth autodetect modconf block filesystems keyboard fsck)/' /etc/mkinitcpio.conf
 
+$ECHO "==> This is the HOOKS return value $?" && $SLEEP
+
 $ECHO "${GREEN}\n[+] Changing ShowDelay value in plymouthd.conf${NC}"
+
 sed -i 's/^ShowDelay=/ShowDelay=0/' /etc/plymouth/plymouthd.conf
 sed -i 's/^DeviceTimeout=/DeviceTimeout=5/' /etc/plymouth/plymouthd.conf
 
@@ -102,7 +124,7 @@ EOF
 
 $ECHO "${GREEN}\n[+] Enabling Login Display Manager${NC}"
 
-sudo systemctl enable sddm.service
+sudo systemctl enable sddm-plymouth.service
 
 # ------------------------------------------------------------------------
 
