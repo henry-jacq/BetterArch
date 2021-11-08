@@ -19,12 +19,72 @@ ORANGE="\e[33m"
 ECHO="echo -e"
 READ="read -p"
 SLEEP="sleep 0.5"
+username=$(cat credentials.conf | awk -F "=" '{print $2}')
 
 $ECHO "\n==> Reached Final setup and configuration"
 
-$ECHO "==> This is the Username ${username}"
+$ECHO "==> This is the Username from credentials.conf. user = '${username}'"
+$ECHO "==> Now It is going to switch user for adding some custom tweaks to that user ${username}"
+$READ "==> Switching to User $USER to ${username}. If you wish? [y/n] " usercheck
+if [[ $usercheck == "y" ]]; then
+    $ECHO "==> switching to user ${username}"
+    su - ${username}
+    $ECHO "Home directory : $(pwd)"
+    $ECHO "==> Username = $(whoami)"
+    cd ~
+    $ECHO "${GREEN}==> Attempting to add custom tweaks${NC}"
+    $ECHO "==> Copying config files"
+    mkdir -p $HOME/.config
+    cp -R $HOME/BetterArch/config/* $HOME/.config/
+    chown -R ${username} $HOME/.config/
+    $SLEEP
+    # usr/share ----------------------------------------------------
+    $ECHO "==> Copying wallpapers, konsole themes and sddm themes to /usr/share/"
+    mkdir -p /usr/share/wallpapers/
+    sleep 10
+    cp -R $HOME/BetterArch/usr/share/* /usr/share/
+    $SLEEP
+    # Copying sddm settings conf ---------------------------------------------
+    $ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
+    cp -R $HOME/BetterArch/etc/sddm.conf.d/* /etc/
+    $SLEEP
+    # Konsole profile added (local) ----------------------------------------------------
+    $ECHO "==> Copying konsole profile"
+    cp -R $HOME/BetterArch/local/share/* $HOME/.local/
+    chown -R ${username} $HOME/.local/
+    $SLEEP
+    # Eagle profile img added -------------------------------------------------
+    # $ECHO "==> Copying profile img to /usr/share/sddm/faces/"
+    # cp -R $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
+    # $SLEEP
+    # renaming the user icon in /usr/share/sddm/faces/------------------------
+    # $ECHO "==> Renaming to user.face.icon"
+    # mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
+    # $SLEEP
+    # ------------------------------------------------------------------------
+    $ECHO "==> Copying face icon and gtkrc to home"
+    cp -R $HOME/BetterArch/etc/skel/* $HOME
+    $SLEEP
+    $ECHO "${GREEN}[+] Process is done !${NC}"
+    $ECHO "==> Switching back to root"
+    exit
+elif [[ $usercheck == "n" ]]; then
+    $ECHO "${RED}==> Oops, sorry you can't get the custom tweaks !"
+else
+    $ECHO "${RED}==> Oops, sorry you can't get the custom tweaks !"
+fi
 
+$ECHO "Home directory : $(pwd)"
+$ECHO "==> Username = $(whoami)"
+cd ~
 sleep 5
+
+# ------------------------------------------------------------------------
+
+$ECHO "${GREEN}==> Adding custom progress bar theme to pacman${NC}"
+sed -i '/ParallelDownloads = 8/a ILoveCandy' /etc/pacman.conf
+$ECHO "${GREEN}==> Enabling color in pacman${NC}"
+sed -i 's/#Color/Color/' /etc/pacman.conf
 
 # ------------------------------------------------------------------------
 
@@ -43,40 +103,7 @@ $ECHO ${ORANGE}"==> Updating the System${NC}"
 pacman -Syyu
 $ECHO "${GREEN}==> System updated${NC}"
 
-# ------------------------------------------------------------------------
 
-$ECHO "==> Copying config files"
-mkdir -p $HOME/.config
-cp -R $HOME/BetterArch/config/* $HOME/.config/
-chown -R ${username} $HOME/.config/
-$SLEEP
-# usr/share ---------------------------------------------------- ###
-$ECHO "==> Copying wallpapers, konsole themes and sddm themes to /usr/share/"
-mkdir -p /usr/share/wallpapers/
-sleep 10
-cp -R $HOME/BetterArch/usr/share/* /usr/share/
-$SLEEP
-# Copying sddm settings conf ---------------------------------------------###
-$ECHO "==> Copying sddm settings conf /etc/sddm.conf.d/"
-cp -R $HOME/BetterArch/etc/sddm.conf.d/* /etc/
-$SLEEP
-# Konsole profile added (local) ---------------------------------------------------- ###
-$ECHO "==> Copying konsole profile"
-cp -R $HOME/BetterArch/local/share/* $HOME/.local/
-chown -R ${username} $HOME/.local/
-$SLEEP
-# Eagle profile img added -------------------------------------------------
-# $ECHO "==> Copying profile img to /usr/share/sddm/faces/"
-# cp -R $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
-# $SLEEP
-# renaming the user icon in /usr/share/sddm/faces/------------------------
-# $ECHO "==> Renaming to user.face.icon"
-# mv /usr/share/sddm/faces/eagle.png /usr/share/sddm/faces/user.face.icon
-# $SLEEP
-# ------------------------------------------------------------------------###
-$ECHO "==> Copying face icon and gtkrc to home"
-cp -R $HOME/BetterArch/etc/skel/* $HOME
-$SLEEP
 
 # ------------------------------------------------------------------------
 $ECHO "${GREEN}\n[+] Installing grub${NC}"
@@ -99,20 +126,22 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # ------------------------------------------------------------------------
 
+$ECHO "${GREEN}\n[+] Setting up plymouth Theme${NC}"
+plymouth-set-default-theme -R arch10
+
+# ------------------------------------------------------------------------
+
 $ECHO "${GREEN}\n[+] Adding modules and hooks to mkinitcpio.conf${NC}"
-
 sed -i 's/MODULES=()/MODULES=(i915)/' /etc/mkinitcpio.conf
-sed -i 's/^HOOKS=/HOOKS=(base udev plymouth autodetect modconf block filesystems keyboard fsck)/' /etc/mkinitcpio.conf
-
+sed -i 's/^HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)/HOOKS=(base udev plymouth autodetect modconf block filesystems keyboard fsck)/' /etc/mkinitcpio.conf
 $ECHO "==> This is the HOOKS return value $?" && $SLEEP
 
 $ECHO "${GREEN}\n[+] Changing ShowDelay value in plymouthd.conf${NC}"
-
 sed -i 's/^ShowDelay=/ShowDelay=0/' /etc/plymouth/plymouthd.conf
 sed -i 's/^DeviceTimeout=/DeviceTimeout=5/' /etc/plymouth/plymouthd.conf
+mkinitcpio -p linux-lts
 
-$ECHO "${GREEN}\n[+] Setting up plymouth Theme${NC}"
-plymouth-set-default-theme -R arch10
+# ------------------------------------------------------------------------
 
 $ECHO "${GREEN}\n[+] Setting up SDDM Theme${NC}"
 sudo cat <<EOF > /etc/sddm.conf
@@ -133,7 +162,6 @@ $ECHO "${GREEN}\n[+] Enabling essential services${NC}"
 systemctl enable cups.service && $SLEEP
 ntpd -qg && $SLEEP
 systemctl enable ntpd.service && $SLEEP
-systemctl disable dhcpcd.service && $SLEEP
 systemctl stop dhcpcd.service && $SLEEP
 systemctl enable NetworkManager.service && $SLEEP
 systemctl enable bluetooth && $SLEEP
@@ -152,9 +180,6 @@ sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /et
 # Add sudo permissions
 $ECHO "${GREEN}[+] Adding sudo permissions to ${username}${NC}"
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-
-# Replace in the same state
-cd $pwd
 
 $ECHO "
 ###############################################################################

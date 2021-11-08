@@ -26,11 +26,7 @@ SLEEP="sleep 0.5"
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-$ECHO """
--------------------------------------------------
-- Setting up mirrors for optimal download
--------------------------------------------------
-"""
+$ECHO "==> Setting up mirrors for optimal download"
 
 iso=$(curl -4 ifconfig.co/country-iso)
 timedatectl set-ntp true
@@ -133,17 +129,17 @@ if ! grep -qs '/mnt' /proc/mounts; then
 fi
 
 $ECHO """
---------------------------------------
--- Arch Install on Main Drive       --
---------------------------------------
+------------------------------------------------
+--- Arch Installing on (${DISK}) Main Drive  ---
+------------------------------------------------
 """
 $SLEEP
-pacstrap /mnt base base-devel linux linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
+pacstrap /mnt base base-devel linux-lts linux-lts-headers efibootmgr linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
 
 $ECHO "==> Generating Fstab file" && $SLEEP
 genfstab -U /mnt >> /mnt/etc/fstab
 
-$ECHO "==> Adding Ubuntu key" && $SLEEP
+$ECHO "==> Adding Ubuntu keyserver to gpg" && $SLEEP
 $ECHO "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 
 $ECHO "==> Copying BetterArch to /mnt/root/BetterArch"

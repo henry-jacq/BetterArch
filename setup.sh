@@ -175,13 +175,14 @@ PKGS=(
 'layer-shell-qt'
 'latte-dock'
 'libnewt'
+'libreoffice-fresh'
 'libtool'
 'linux-lts'
 'linux-firmware'
 'linux-lts-headers'
 # 'linux-zen'
 'lsof'
-'lutris'
+# 'lutris'
 'lzop'
 'm4'
 'make'
@@ -225,10 +226,7 @@ PKGS=(
 'spectacle'
 'sudo'
 'swtpm'
-'sweet-gtk-theme'
-'sweet-gtk-theme-dark'
 'sweet-kde-git'
-'sweet-theme-git'
 'synergy'
 'systemsettings'
 'telegram-desktop' # Instant messaging
@@ -237,6 +235,8 @@ PKGS=(
 'timeshift'
 'traceroute'
 'ttf-fira-sans'
+'ttf-ms-fonts'
+'ttf-mac-fonts'
 'ufw'
 'unrar'
 'unzip'
@@ -326,14 +326,15 @@ if [ $(whoami) = "root"  ]; then
     	$ECHO "==> Prompting For Password"
     	$SLEEP
     	passwd ${username}
+    	$ECHO "username=${username}" > credentials.conf
     	$ECHO "==> Copying BetterArch to home"
     	cp -R /root/BetterArch/ /home/${username}/
-    	$ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
+    	$ECHO "==> Changing BetterArch/ folder permission as this user ${username}"
     	chown -R ${username}: /home/${username}/BetterArch
     	$READ "[+] Enter the Hostname: " nameofmachine
     	$ECHO ${nameofmachine} > /etc/hostname && $ECHO "==> Hostname Added !"
-        export $nameofmachine
-        export $username
+    	$ECHO "${GREEN}==> Viewing credentials.conf${NC}"
+    	$ECHO "${ORANGE}$(cat credentials.conf)${NC}"
     elif [ $answer == "n" ]; then
     	$ECHO "If statement process echoed into new file called if-stop.sh"
         cat < EOF >> if-stop.sh
@@ -341,6 +342,7 @@ if [ $(whoami) = "root"  ]; then
             $ECHO "==> Prompting For Password"
             $SLEEP
             passwd ${username}
+            $ECHO "username=${username}" > credentials.conf
             $ECHO "==> Copying BetterArch to home"
             cp -R /root/BetterArch/ /home/${username}/
             $ECHO "==> Changing BetterArch/ folder permission as "${username}" this user"
