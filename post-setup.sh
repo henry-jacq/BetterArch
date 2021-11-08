@@ -23,12 +23,8 @@ username=$(cat credentials.conf | awk -F "=" '{print $2}')
 
 $ECHO "\n==> Reached Final setup and configuration"
 
-$ECHO "==> This is the Username from credentials.conf. user = '${username}'"
-$ECHO "==> Now It is going to switch user for adding some custom tweaks to that user ${username}"
-$READ "==> Switching to User $USER to ${username}. If you wish? [y/n] " usercheck
-if [[ $usercheck == "y" ]]; then
-    $ECHO "==> switching to user ${username}"
-    su - ${username}
+function addTweaks() {
+    $ECHO "Username = `whoami`"
     $ECHO "Home directory : $(pwd)"
     $ECHO "==> Username = $(whoami)"
     cd ~
@@ -50,7 +46,7 @@ if [[ $usercheck == "y" ]]; then
     $SLEEP
     # Konsole profile added (local) ----------------------------------------------------
     $ECHO "==> Copying konsole profile"
-    cp -R $HOME/BetterArch/local/share/* $HOME/.local/
+    cp -R $HOME/BetterArch/local/* $HOME/.local/
     chown -R ${username} $HOME/.local/
     $SLEEP
     # Eagle profile img added -------------------------------------------------
@@ -66,8 +62,16 @@ if [[ $usercheck == "y" ]]; then
     cp -R $HOME/BetterArch/etc/skel/* $HOME
     $SLEEP
     $ECHO "${GREEN}[+] Process is done !${NC}"
+}
+
+$ECHO "==> This is the Username from credentials.conf. user = '${username}'"
+$ECHO "==> Now It is going to switch user for adding some custom tweaks to that user ${username}"
+$READ "==> Switching to User $USER to ${username}. If you wish? [y/n] " usercheck
+if [[ $usercheck == "y" ]]; then
+    $ECHO "==> switching to user ${username}"
+    export -f addTweaks
+    su ${username} -c "bash -c addTweaks"
     $ECHO "==> Switching back to root"
-    exit
 elif [[ $usercheck == "n" ]]; then
     $ECHO "${RED}==> Oops, sorry you can't get the custom tweaks !"
 else
@@ -100,7 +104,7 @@ $ECHO "" >> /etc/pacman.conf
 $ECHO "[chaotic-aur]" >> /etc/pacman.conf
 $ECHO "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 $ECHO ${ORANGE}"==> Updating the System${NC}"
-pacman -Syyu
+pacman -Syyu --noconfirm
 $ECHO "${GREEN}==> System updated${NC}"
 
 

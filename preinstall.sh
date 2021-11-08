@@ -49,7 +49,6 @@ ______      _   _             ___           _
 -------------------------------------------------------------------------
 """
 reflector -a 48 -c $iso -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
-mkdir /mnt
 
 $ECHO "\n==> Installing Prerequisites...\n$HR"
 $SLEEP
