@@ -30,17 +30,17 @@ function addTweaks () {
     cd ~/
     $ECHO "Current directory : $(pwd)"
     $ECHO "${GREEN}==> Attempting to add custom tweaks${NC}"
-    $ECHO "==> Copying config files"
-    mkdir .config
-    cp -R BetterArch/config/* ~/.config/
-    sudo chown -R ${username} ~/.config/
-    $SLEEP
+#     $ECHO "==> Copying config files"
+#     mkdir .config
+#     cp -R BetterArch/config/* ~/.config/
+#     sudo chown -R ${username} ~/.config/
+#     $SLEEP
 
     # Konsole profile added (local) ----------------------------------------------------
-    $ECHO "==> Copying konsole profile"
-    cp -R BetterArch/local/share/* $HOME/.local/share/
-    sudo chown -R ${username} ~/.local/
-    $SLEEP
+#     $ECHO "==> Copying konsole profile"
+#     cp -R BetterArch/local/share/* $HOME/.local/share/
+#     sudo chown -R ${username} ~/.local/
+#     $SLEEP
     # Eagle profile img added -------------------------------------------------
     # $ECHO "==> Copying profile img to /usr/share/sddm/faces/"
     # cp -R $HOME/BetterArch/etc/skel/eagle.png /usr/share/sddm/faces/
@@ -52,6 +52,10 @@ function addTweaks () {
 
     $ECHO "==> Copying face icon and gtkrc to home (skel things)"
     cp -R BetterArch/etc/skel/* $HOME
+    $SLEEP
+    # Renaming user icon to .face---------------------------------------------
+    $ECHO "==> Renaming to .face.icon"
+    mv ~/eagle.png ~/.face.icon
     $SLEEP
     $ECHO "${GREEN}[+] Process is done !${NC}"
 }

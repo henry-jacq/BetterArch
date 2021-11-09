@@ -88,18 +88,15 @@ done
 
 export PATH=$PATH:~/.local/bin
 
-# Renaming user icon to .face---------------------------------------------
-$ECHO "==> Renaming to .face.icon"
-mv $HOME/eagle.png $HOME/.face.icon
-$SLEEP
+
 # ------------------------------------------------------------------------### copied but not correctly pasted the contents
 # adding neofetch to bashrc 
 $ECHO "==> Adding neofetch in bashrc" && $SLEEP
 $ECHO "neofetch" >> $HOME/.bashrc
 
-# $ECHO "==> Installing konsave using pip"
-# pip install konsave
+$ECHO "==> Installing konsave using pip"
+pip install konsave
 # konsave -i $HOME/BetterArch/kde.knsv
-# $SLEEP
+$SLEEP
 # konsave -a kde
 exit
