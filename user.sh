@@ -6,7 +6,7 @@
 # | |_/ / ___| |_| |_ ___ _ __/ /_\ \_ __ ___| |__
 # | ___ \/ _ \ __| __/ _ \ '__|  _  | '__/ __| '_ \
 # | |_/ /  __/ |_| ||  __/ |  | | | | | | (__| | | |
-# \____/ \___|\__|\__\___|_|  \_| |_/_|  \___|_| |_| v1.4
+# \____/ \___|\__|\__\___|_|  \_| |_/_|  \___|_| |_| v1.6
 #-------------------------------------------------------------------------
 # Author: Henry
 # GitHub: https://github.com/henry-jacq
@@ -28,7 +28,6 @@ $ECHO "==> Changing directory to /home/${username}"
 cd /home/${username}
 $ECHO "---------------------------------------"
 $ECHO "\n${GREEN}==> Installing AUR Helper\n${NC}" && $SLEEP
-# You can solve users running this script as root with this and then doing the same for the next for statement. However I will leave this up to you.
 
 $ECHO "${GREEN}==> Cloning: Yay${NC}" && $SLEEP
 cd ~
